@@ -16,17 +16,17 @@
     <meta name="author" content="">
 
     <!-- Site Icons -->
-    <link rel="shortcut icon" href="../../public/images/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="../../public/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="../../../public/images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../../public/images/apple-touch-icon.png">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../public/css/bootstrap.min.css">
     <!-- Site CSS -->
-    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="../../../public/css/style.css">
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="../../public/css/responsive.css">
+    <link rel="stylesheet" href="../../../public/css/responsive.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../public/css/custom.css">
+    <link rel="stylesheet" href="../../../public/css/custom.css">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -103,18 +103,28 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                    <a class="navbar-brand" href="index.twig"><img src="../../public/images/logo.png" class="logo" alt=""></a>
+                    <a class="navbar-brand" href="index.twig"><img src="../../../public/images/logo.png" class="logo" alt=""></a>
                 </div>
                 <!-- End Header Navigation -->
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="navbar-menu">
+                <div class="collapse navbar-collapse" id="navbar-menu">
 					<ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
 						<li class="nav-item"><a class="nav-link" href="index.twig">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="about.twig">About Us</a></li>
-                        <li class="nav-item"><a class="nav-link" href="shop.twig" >Shop</a></li>
+						<li class="dropdown active">
+							<a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
+							<ul class="dropdown-menu">
+								<li><a href="shop.twig">Sidebar Shop</a></li>
+								<li><a href="shop-detail.html">Shop Detail</a></li>
+								<li><a href="cart.twig">Cart</a></li>
+								<li><a href="checkout.twig">Checkout</a></li>
+								<li><a href="my-account.twig">My Account</a></li>
+								<li><a href="wishlist.twig">Wishlist</a></li>
+							</ul>
+						</li>
 						<li class="nav-item"><a class="nav-link" href="gallery.twig">Gallery</a></li>
-						<li class="nav-item active"><a class="nav-link" href="contact-us.twig">Contact Us</a></li>
+						<li class="nav-item"><a class="nav-link" href="contact-us.twig">Contact Us</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -138,17 +148,17 @@
                 <li class="cart-box">
                     <ul class="cart-list">
                         <li>
-                            <a href="#" class="photo"><img src="../../public/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
+                            <a href="#" class="photo"><img src="../../../public/images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
                             <h6><a href="#">Delica omtantur </a></h6>
                             <p>1x - <span class="price">$80.00</span></p>
                         </li>
                         <li>
-                            <a href="#" class="photo"><img src="../../public/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
+                            <a href="#" class="photo"><img src="../../../public/images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
                             <h6><a href="#">Omnes ocurreret</a></h6>
                             <p>1x - <span class="price">$60.00</span></p>
                         </li>
                         <li>
-                            <a href="#" class="photo"><img src="../../public/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
+                            <a href="#" class="photo"><img src="../../../public/images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
                             <h6><a href="#">Agam facilisis</a></h6>
                             <p>1x - <span class="price">$40.00</span></p>
                         </li>
@@ -182,10 +192,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Contact Us</h2>
+                    <h2>Wishlist</h2>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"> Contact Us </li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active">Wishlist</li>
                     </ul>
                 </div>
             </div>
@@ -193,77 +203,111 @@
     </div>
     <!-- End All Title Box -->
 
-    <!-- Start Contact Us  -->
-    <div class="contact-box-main">
+    <!-- Start Wishlist  -->
+    <div class="wishlist-box-main">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-sm-12">
-                    <div class="contact-form-right">
-                        <h2>GET IN TOUCH</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed odio justo, ultrices ac nisl sed, lobortis porta elit. Fusce in metus ac ex venenatis ultricies at cursus mauris.</p>
-                        <form id="contactForm">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required data-error="Please enter your name">
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" placeholder="Your Email" id="email" class="form-control" name="name" required data-error="Please enter your email">
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="subject" name="name" placeholder="Subject" required data-error="Please enter your Subject">
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" id="message" placeholder="Your Message" rows="4" data-error="Write your message" required></textarea>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                    <div class="submit-button text-center">
-                                        <button class="btn hvr-hover" id="submit" type="submit">Send Message</button>
-                                        <div id="msgSubmit" class="h3 text-center hidden"></div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-				<div class="col-lg-4 col-sm-12">
-                    <div class="contact-info-left">
-                        <h2>CONTACT INFO</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna diam, maximus ut ullamcorper quis, placerat id eros. Duis semper justo sed condimentum rutrum. Nunc tristique purus turpis. Maecenas vulputate. </p>
-                        <ul>
-                            <li>
-                                <p><i class="fas fa-map-marker-alt"></i>Address: Michael I. Days 9000 <br>Preston Street Wichita,<br> KS 87213 </p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770">+1-888 705 770</a></p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-envelope"></i>Email: <a href="mailto:contactinfo@gmail.com">contactinfo@gmail.com</a></p>
-                            </li>
-                        </ul>
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Images</th>
+                                    <th>Product Name</th>
+                                    <th>Unit Price </th>
+                                    <th>Stock</th>
+                                    <th>Add Item</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									<img class="img-fluid" src="../../../public/images/img-pro-01.jpg" alt="" />
+								</a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+									Lorem ipsum dolor sit amet
+								</a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>$ 80.0</p>
+                                    </td>
+                                    <td class="quantity-box">In Stock</td>
+                                    <td class="add-pr">
+                                        <a class="btn hvr-hover" href="#">Add to Cart</a>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a href="#">
+									<i class="fas fa-times"></i>
+								</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									<img class="img-fluid" src="../../../public/images/img-pro-02.jpg" alt="" />
+								</a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+									Lorem ipsum dolor sit amet
+								</a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>$ 60.0</p>
+                                    </td>
+                                    <td class="quantity-box">In Stock</td>
+                                    <td class="add-pr">
+                                        <a class="btn hvr-hover" href="#">Add to Cart</a>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a href="#">
+									<i class="fas fa-times"></i>
+								</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									<img class="img-fluid" src="../../../public/images/img-pro-03.jpg" alt="" />
+								</a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+									Lorem ipsum dolor sit amet
+								</a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>$ 30.0</p>
+                                    </td>
+                                    <td class="quantity-box">In Stock</td>
+                                    <td class="add-pr">
+                                        <a class="btn hvr-hover" href="#">Add to Cart</a>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a href="#">
+									<i class="fas fa-times"></i>
+								</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Cart -->
+    <!-- End Wishlist -->
 
     <!-- Start Instagram Feed  -->
     <div class="instagram-box">
         <div class="main-instagram owl-carousel owl-theme">
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-01.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-01.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -271,7 +315,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-02.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-02.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -279,7 +323,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-03.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-03.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -287,7 +331,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-04.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-04.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -295,7 +339,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-05.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-05.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -303,7 +347,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-06.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-06.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -311,7 +355,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-07.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-07.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -319,7 +363,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-08.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-08.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -327,7 +371,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-09.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-09.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -335,7 +379,7 @@
             </div>
             <div class="item">
                 <div class="ins-inner-box">
-                    <img src="../../public/images/instagram-img-05.jpg" alt="" />
+                    <img src="../../../public/images/instagram-img-05.jpg" alt="" />
                     <div class="hov-in">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -430,21 +474,21 @@
     <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 
     <!-- ALL JS FILES -->
-    <script src="../../public/js/jquery-3.2.1.min.js"></script>
-    <script src="../../public/js/popper.min.js"></script>
-    <script src="../../public/js/bootstrap.min.js"></script>
+    <script src="../../../public/js/jquery-3.2.1.min.js"></script>
+    <script src="../../../public/js/popper.min.js"></script>
+    <script src="../../../public/js/bootstrap.min.js"></script>
     <!-- ALL PLUGINS -->
-    <script src="../../public/js/jquery.superslides.min.js"></script>
-    <script src="../../public/js/bootstrap-select.js"></script>
-    <script src="../../public/js/inewsticker.js"></script>
+    <script src="../../../public/js/jquery.superslides.min.js"></script>
+    <script src="../../../public/js/bootstrap-select.js"></script>
+    <script src="../../../public/js/inewsticker.js"></script>
     <script src="../../public/js/bootsnav.js."></script>
-    <script src="../../public/js/images-loded.min.js"></script>
-    <script src="../../public/js/isotope.min.js"></script>
-    <script src="../../public/js/owl.carousel.min.js"></script>
-    <script src="../../public/js/baguetteBox.min.js"></script>
-    <script src="../../public/js/form-validator.min.js"></script>
-    <script src="../../public/js/contact-form-script.js"></script>
-    <script src="../../public/js/custom.js"></script>
+    <script src="../../../public/js/images-loded.min.js"></script>
+    <script src="../../../public/js/isotope.min.js"></script>
+    <script src="../../../public/js/owl.carousel.min.js"></script>
+    <script src="../../../public/js/baguetteBox.min.js"></script>
+    <script src="../../../public/js/form-validator.min.js"></script>
+    <script src="../../../public/js/contact-form-script.js"></script>
+    <script src="../../../public/js/custom.js"></script>
 </body>
 
 </html>
