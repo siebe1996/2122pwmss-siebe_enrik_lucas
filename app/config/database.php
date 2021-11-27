@@ -10,5 +10,5 @@ define('DB_USER', 'root');
 define('DB_PASS', 'Azerty123');
 
 //define('DB_NAME', 'wmss-labo');
-define('DB_NAME', 'tasklist');
+define('DB_NAME', 'WMSS_Project');
 define('DEBUG', true);
