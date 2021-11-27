@@ -1,18 +1,30 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+{% for error in errors %}
+  <tr>
+    <td>
+
+      <br>
+      {{ error }}
+      <br>
+    </td>
+  </tr>
+
+{% endfor %}
+
 <div class="login-page">
-  <link rel="stylesheet" href="../../public/css/login.css">
   <div class="form">
-    <form class="register-form">
-      <input type="text" placeholder="name"/>
-      <input type="password" placeholder="password"/>
-      <input type="text" placeholder="email address"/>
-      <button>create</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
-    </form>
-    <form class="login-form">
-      <input type="text" placeholder="username"/>
-      <input type="password" placeholder="password"/>
+    <form class="col s12" method="post" action="login.php" enctype="multipart/form-data">
+      <input type="hidden" name="moduleAction" value="login">
+      <input id="email" type="text"  placeholder="email" class="validate" name="email"  value="{{ email }}">
+      <input id="password" type="password"  placeholder="password" class="validate" name="password">
       <button>login</button>
-      <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
   </div>
 </div>
+</body>
