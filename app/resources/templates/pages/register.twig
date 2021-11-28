@@ -19,7 +19,7 @@
 
 <div class="register-page">
     <div class="register-form">
-        <form class="col s12" method="post" action="register.php" enctype="multipart/form-data">
+        <form class="col s12" method="post" action="register.php" enctype="multipart/form-data" novalidate>
             <input type="hidden" name="moduleAction" value="register">
             <label for="name">Name</label>
             <input id="name" type="text"  placeholder="name" class="validate" name="name"  value="{{ name }}" required>

@@ -39,7 +39,7 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'register')) {
 
     if (sizeof($formErrors) == 0){
         $stmt = $conn->prepare('INSERT INTO users (name, email, address, phonenumber, password) VALUES (?, ?, ?, ?, ?)');
-        $result = $stmt->executeStatement([$name, $email, $address, $telephone, $password]);
+        $result = $stmt->executeStatement([$name, $email, $address, $telephone, password_hash($password, PASSWORD_DEFAULT)]);
         header('Location: login.php');
     }
 
