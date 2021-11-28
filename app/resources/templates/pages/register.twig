@@ -1,0 +1,38 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+{% for error in errors %}
+    <tr>
+        <td>
+
+            <br>
+            {{ error }}
+            <br>
+        </td>
+    </tr>
+
+{% endfor %}
+
+<div class="register-page">
+    <div class="register-form">
+        <form class="col s12" method="post" action="register.php" enctype="multipart/form-data">
+            <input type="hidden" name="moduleAction" value="register">
+            <label for="name">Name</label>
+            <input id="name" type="text"  placeholder="name" class="validate" name="name"  value="{{ name }}" required>
+            <label for="email">Email</label>
+            <input id="email" type="email"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}" required>
+            <label for="address">Address</label>
+            <input id="address" type="text"  placeholder="somewhere" class="validate" name="address"  value="{{ address }}" required>
+            <label for="telephone">Telephone</label>
+            <input id="telephone" type="tel" pattern="[0-9]{9,10}" placeholder="092658610" name="telephone" value="{{ telephone }}">
+            <label for="password">Password</label>
+            <input id="password" type="password"  placeholder="password" class="validate" name="password" required>
+            <button>register</button>
+        </form>
+    </div>
+</div>
+</body>
