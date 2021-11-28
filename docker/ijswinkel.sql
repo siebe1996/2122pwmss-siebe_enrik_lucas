@@ -29,6 +29,12 @@ CREATE TABLE IF NOT EXISTS `WMSS_Project`.`categories` (
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
+INSERT INTO `WMSS_Project`.`categories` (`name`) VALUES
+    ('ambachtelijk ijs'),
+                                    ('sorbet ijs'),
+                                    ('ijs met alcohol');
+
+
 
 -- -----------------------------------------------------
 -- Table `WMSS_Project`.`products`
@@ -44,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `WMSS_Project`.`products` (
     `kind` ENUM('literverpakking', 'ijstaart') NOT NULL,
     `image` TEXT NULL,
     `featured` TINYINT(1) NOT NULL DEFAULT 0,
-    `categories_id` INT NOT NULL,
+    `categories_id` INT NULL,
     `sortweight` INT NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     -- INDEX `fk_products_categories1_idx` (`categories_id` ASC) VISIBLE,
@@ -54,6 +60,13 @@ CREATE TABLE IF NOT EXISTS `WMSS_Project`.`products` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB;
+
+INSERT INTO `WMSS_Project`.`products` (`name`, `stock`, `description`, `price`, `kind`, `categories_id`, `sortweight`) VALUES
+    ('pistache', '5', 'smaakt naar pistache', '5', 'literverpakking', 0, 0),
+    ('aardbei', '3', 'smaakt naar aardbei', '6', 'literverpakking', 0, 0),
+    ('mango', '7', 'smaakt naar mango', '3', 'literverpakking', 1, 0),
+    ('strawberry dream cream', '2', 'smaakt naar pittige aarbei', '9', 'literverpakking', 2, 0),
+    ('verjaardagstaart', '1', 'de naam joris', '15', 'ijstaart', null, 0);
 
 
 -- -----------------------------------------------------
@@ -71,6 +84,10 @@ CREATE TABLE IF NOT EXISTS `WMSS_Project`.`users` (
     `is_admin` TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`))
     ENGINE = InnoDB;
+
+INSERT INTO `WMSS_Project`.`users` (`name`, `email`, `phonenumber`, `address`, `password`) VALUES
+                                                                                ('test', 'test@test', '092222222', 'test', '$2y$10$HkW67vL.XWYoPK7udSnJA.iQytATNmUvwituvnpTaRNVHudk/6oqu');
+
 
 
 -- -----------------------------------------------------
