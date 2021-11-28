@@ -38,7 +38,7 @@
 <body>
 <!-- Start Main Top -->
 {% block topMainContent %}
-{% endblock topMainContent %}
+{% endblock %}
 
 <!-- End Main Top -->
 
@@ -59,18 +59,18 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="nav-item{{ if title == "home" }} active {% endif %}"><a class="nav-link" href="index.twig">Home</a></li>
-                    <li class="nav-item{{ if title == "about" }} active {% endif %}"><a class="nav-link" href="about.twig">About Us</a></li>
-                    <li class="nav-item{{ if title == "shop" }} active {% endif %}"><a class="nav-link" href="shop.twig" >Shop</a></li>
-                    <li class="nav-item{{ if title == "gallery" }} active {% endif %}"><a class="nav-link" href="gallery.twig">Gallery</a></li>
-                    <li class="nav-item{{ if title == "contact" }} active {% endif %}"><a class="nav-link" href="contact-us.twig">Contact Us</a></li>
+                    <li class="nav-item {% if title == "home" %} active {% endif %}"><a class="nav-link" href="index.twig">Home</a></li>
+                    <li class="nav-item {% if title == "about" %} active {% endif %}"><a class="nav-link" href="about.twig">About Us</a></li>
+                    <li class="nav-item {% if title == "shop" %} active {% endif %}"><a class="nav-link" href="shop.twig" >Shop</a></li>
+                    <li class="nav-item {% if title == "gallery" %} active {% endif %}"><a class="nav-link" href="gallery.twig">Gallery</a></li>
+                    <li class="nav-item {% if title == "contact" %} active {% endif %}"><a class="nav-link" href="contact-us.twig">Contact Us</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
 {% block mainContent %}
-{% endblock mainContent %}
+{% endblock %}
 
 <footer>
 
@@ -155,7 +155,7 @@
 <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 
 {% block scripts %}
-{% endblock scripts %}
+{% endblock %}
 </body>
 
 </html>

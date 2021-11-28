@@ -1,5 +1,7 @@
 <?php
 require_once ('../vendor/autoload.php');
+require_once ('../config/database.php');
+require_once ('../src/Services/DatabaseConnector.php');
 
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../resources/templates');
 $twig = new Twig\Environment($loader, [
@@ -26,11 +28,21 @@ else if(strtoupper($sort) == 'POPULARITY') {
 }
 
 $stmt = $conn->prepare($query);
-$stmt->executeQuery()->fetchAllAssociative();
+$products = $stmt->executeQuery()->fetchAllAssociative();
+
+$amountOfResults = count($products);
+
+$query = 'SELECT * FROM categories';
+$stmt = $conn->prepare($query);
+$categories = $stmt->executeQuery()->fetchAllAssociative();
+
 
 $variables = [
-
+    'amountOfResults' => $amountOfResults,
+    'categories' => $categories,
+    'products' => $products,
+    'title' => 'shop'
 ];
 
 $tpl = $twig->load('pages/shop.twig');
-echo $tpl->render($variables);
+echo $tpl->render();
