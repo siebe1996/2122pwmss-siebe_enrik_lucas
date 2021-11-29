@@ -2,7 +2,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
 {% for error in errors %}
@@ -18,7 +18,7 @@
 {% endfor %}
 
 <div class="register-page">
-    <div class="register-form">
+    <div class="form">
         <form class="col s12" method="post" action="register.php" enctype="multipart/form-data" novalidate>
             <input type="hidden" name="moduleAction" value="register">
             <label for="name">Name</label>
