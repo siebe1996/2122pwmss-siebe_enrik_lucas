@@ -5,21 +5,22 @@
   <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-{% for error in errors %}
-  <tr>
-    <td>
-
-      <br>
-      {{ error }}
-      <br>
-    </td>
-  </tr>
-
-{% endfor %}
 
 <div class="login-page">
   <div class="form">
     <form class="col s12" method="post" action="login.php" enctype="multipart/form-data">
+      {% for error in errors %}
+        <tr>
+          <td>
+
+            <br>
+            {{ error }}
+            <br>
+          </td>
+        </tr>
+
+      {% endfor %}
+
       <input type="hidden" name="moduleAction" value="login">
       <input id="email" type="email"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}">
       <input id="password" type="password"  placeholder="password" class="validate" name="password">

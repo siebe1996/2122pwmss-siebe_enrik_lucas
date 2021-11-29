@@ -31,7 +31,7 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
         $stmt = $conn->prepare('SELECT id, name, password FROM users WHERE email = ?');
         $result = $stmt->executeQuery([$email])->fetchAllAssociative();
         if (sizeof($result) == 0){
-            echo "email of wachtwoord is incorrect";
+            $formErrors[] = "email of wachtwoord is incorrect";
         }else{
             if (password_verify( $password,   $result[0]['password']) == 1) {
                 session_start();
@@ -40,7 +40,7 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
                 $_SESSION["name"] = $result['name'];
                 header("location: index.php");
             }else{
-                echo "email of wachtwoord is incorrect";
+                $formErrors[] = "email of wachtwoord is incorrect";
             }
         }
     }
