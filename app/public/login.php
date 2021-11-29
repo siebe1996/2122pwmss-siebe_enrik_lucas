@@ -31,21 +31,19 @@ if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
         $stmt = $conn->prepare('SELECT id, name, password FROM users WHERE email = ?');
         $result = $stmt->executeQuery([$email])->fetchAllAssociative();
         if (sizeof($result) == 0){
-            "email of wachtwoord is incorrect";
+            echo "email of wachtwoord is incorrect";
         }else{
-            if ($result["password" == $password]){
-            session_start();
-            $_SESSION["loggedin"] = true;
-            $_SESSION["id"] = $result['id'];
-            $_SESSION["name"] = $result['name'];
-            header("location: index.php");
-
+            if (password_verify( $password,   $result[0]['password']) == 1) {
+                session_start();
+                $_SESSION["loggedin"] = true;
+                $_SESSION["id"] = $result['id'];
+                $_SESSION["name"] = $result['name'];
+                header("location: index.php");
+            }else{
+                echo "email of wachtwoord is incorrect";
             }
-
         }
     }
-
-
 }
 
 $tpl = $twig->load('pages/login.twig');
