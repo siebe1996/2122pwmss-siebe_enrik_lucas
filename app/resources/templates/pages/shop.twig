@@ -16,9 +16,9 @@
 
                                 <select id="basic" name="sort" class="selectpicker show-tick form-control" data-placeholder="€ EUR">
                                     <a href="index.php"><option data-display="Select">Nothing</option></a>
-                                    <option value="POPULARITY">Popularity</option>
-                                    <option value="DESC">High Price → High Price</option>
-                                    <option value="ASC">Low Price → High Price</option>
+                                    <option value="POPULARITY" {% if sort == "POPULARITY" %} selected ="selected" {% endif %}>Popularity</option>
+                                    <option value="DESC" {% if sort == "DESC" %} selected ="selected" {% endif %}>High Price → High Price</option>
+                                    <option value="ASC" {% if sort == "ASC" %} selected ="selected" {% endif %}>Low Price → High Price</option>
                                 </select>
 
                             </div>

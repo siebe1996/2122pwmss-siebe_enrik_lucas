@@ -37,7 +37,7 @@ if(trim($productId)!='') {
 }
 
 if(trim($category)!='') {
-    $query = 'SELECT * FROM products WHERE categories_id = ' . $category;
+    $query = 'SELECT * FROM products WHERE categories_id LIKE ?' . $category;
     if(strtoupper($sort) == 'ASC') {
         $query = 'SELECT * FROM products WHERE categories_id = ' . $category . ' ORDER BY price ASC';
     }
@@ -47,6 +47,7 @@ if(trim($category)!='') {
     else if(strtoupper($sort) == 'POPULARITY') {
         $query = 'SELECT * FROM products WHERE categories_id = ' . $category . ' ORDER BY stock';
     }
+
 }
 
 
@@ -74,6 +75,7 @@ $variables = [
     'amountOfResults' => $amountOfResults,
     'categories' => $categories,
     'products' => $products,
+    'sort' => strtoupper($sort),
     'title' => 'shop'
 ];
 
