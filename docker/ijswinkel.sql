@@ -62,10 +62,10 @@ CREATE TABLE IF NOT EXISTS `WMSS_Project`.`products` (
     ENGINE = InnoDB;
 
 INSERT INTO `WMSS_Project`.`products` (`name`, `stock`, `description`, `price`, `kind`, `categories_id`, `sortweight`) VALUES
-    ('pistache', '5', 'smaakt naar pistache', '5', 'literverpakking', 0, 0),
-    ('aardbei', '3', 'smaakt naar aardbei', '6', 'literverpakking', 0, 0),
-    ('mango', '7', 'smaakt naar mango', '3', 'literverpakking', 1, 0),
-    ('strawberry dream cream', '2', 'smaakt naar pittige aarbei', '9', 'literverpakking', 2, 0),
+    ('pistache', '5', 'smaakt naar pistache', '5', 'literverpakking', 1, 0),
+    ('aardbei', '3', 'smaakt naar aardbei', '6', 'literverpakking', 1, 0),
+    ('mango', '7', 'smaakt naar mango', '3', 'literverpakking', 2, 0),
+    ('strawberry dream cream', '2', 'smaakt naar pittige aarbei', '9', 'literverpakking', 3, 0),
     ('verjaardagstaart', '1', 'de naam joris', '15', 'ijstaart', null, 0);
 
 
