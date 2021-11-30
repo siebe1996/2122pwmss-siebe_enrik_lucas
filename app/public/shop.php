@@ -36,8 +36,11 @@ if(trim($productId)!='') {
     $query = 'SELECT * FROM products WHERE id = ' . $productId;
 }
 
+$stmt = $conn->prepare($query);
+$products = $stmt->executeQuery()->fetchAllAssociative();
+
 if(trim($category)!='') {
-    $query = 'SELECT * FROM products WHERE categories_id LIKE ?' . $category;
+    $query = 'SELECT * FROM products WHERE categories_id LIKE ?';
     if(strtoupper($sort) == 'ASC') {
         $query = 'SELECT * FROM products WHERE categories_id = ' . $category . ' ORDER BY price ASC';
     }
@@ -47,13 +50,11 @@ if(trim($category)!='') {
     else if(strtoupper($sort) == 'POPULARITY') {
         $query = 'SELECT * FROM products WHERE categories_id = ' . $category . ' ORDER BY stock';
     }
+    $stmtName = $conn->prepare($query);
+    $result = $stmtName->executeQuery(['%'.$category.'%']);
+    $companies = $result->fetchAllAssociative();
 
 }
-
-
-
-$stmt = $conn->prepare($query);
-$products = $stmt->executeQuery()->fetchAllAssociative();
 
 
 
