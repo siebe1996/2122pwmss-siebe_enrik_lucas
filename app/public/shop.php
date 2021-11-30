@@ -22,37 +22,46 @@ $category = isset($_GET['category']) ? (string)$_GET['category'] : '';
 
 $productId = isset($_GET['id']) ? (string)$_GET['id'] : '';
 
-if(strtoupper($sort) == 'ASC') {
-    $query = 'SELECT * FROM products ORDER BY price ASC';
-}
-else if(strtoupper($sort) == 'DESC') {
-    $query = 'SELECT * FROM products ORDER BY price DESC';
-}
-else if(strtoupper($sort) == 'POPULARITY') {
-    $query = 'SELECT * FROM products ORDER BY stock';
+$query = 'SELECT * FROM products';
+$stmt = $conn->prepare($query);
+$products = $stmt->executeQuery()->fetchAllAssociative();
+
+if (strtoupper($sort) == 'ASC' || strtoupper($sort) == 'DESC' || strtoupper($sort) == 'POPULARITY'){
+    if(strtoupper($sort) == 'ASC') {
+        $query = 'SELECT * FROM products ORDER BY price ASC';
+    }
+    else if(strtoupper($sort) == 'DESC') {
+        $query = 'SELECT * FROM products ORDER BY price DESC';
+    }
+    else if(strtoupper($sort) == 'POPULARITY') {
+        $query = 'SELECT * FROM products ORDER BY stock';
+    }
+
+    $stmt = $conn->prepare($query);
+    $products = $stmt->executeQuery()->fetchAllAssociative();
 }
 
 if(trim($productId)!='') {
-    $query = 'SELECT * FROM products WHERE id = ' . $productId;
+    $query = 'SELECT * FROM products WHERE id LIKE ?';
+    $stmtName = $conn->prepare($query);
+    $result = $stmtName->executeQuery(['%'.$productId.'%']);
+    $products = $result->fetchAllAssociative();
 }
-
-$stmt = $conn->prepare($query);
-$products = $stmt->executeQuery()->fetchAllAssociative();
 
 if(trim($category)!='') {
     $query = 'SELECT * FROM products WHERE categories_id LIKE ?';
     if(strtoupper($sort) == 'ASC') {
-        $query = 'SELECT * FROM products WHERE categories_id = ' . $category . ' ORDER BY price ASC';
+        $query = 'SELECT * FROM products WHERE categories_id LIKE ? ORDER BY price ASC';
     }
     else if(strtoupper($sort) == 'DESC') {
-        $query = 'SELECT * FROM products WHERE categories_id = ' . $category . ' ORDER BY price DESC';
+        $query = 'SELECT * FROM products WHERE categories_id LIKE ? ORDER BY price DESC';
     }
     else if(strtoupper($sort) == 'POPULARITY') {
-        $query = 'SELECT * FROM products WHERE categories_id = ' . $category . ' ORDER BY stock';
+        $query = 'SELECT * FROM products WHERE categories_id LIKE ? ORDER BY stock';
     }
     $stmtName = $conn->prepare($query);
     $result = $stmtName->executeQuery(['%'.$category.'%']);
-    $companies = $result->fetchAllAssociative();
+    $products = $result->fetchAllAssociative();
 
 }
 

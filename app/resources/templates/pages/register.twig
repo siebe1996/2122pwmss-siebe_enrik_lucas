@@ -22,15 +22,15 @@
         <form class="col s12" method="post" action="register.php" enctype="multipart/form-data" novalidate>
             <input type="hidden" name="moduleAction" value="register">
             <label for="name">Name</label>
-            <input id="name" type="text"  placeholder="name" class="validate" name="name"  value="{{ name }}" required>
+            <input id="name" type="text"  placeholder="name" class="validate" name="name"  value="{{ name }}" >
             <label for="email">Email</label>
-            <input id="email" type="email"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}" required>
+            <input id="email" type="email"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}" >
             <label for="address">Address</label>
-            <input id="address" type="text"  placeholder="somewhere" class="validate" name="address"  value="{{ address }}" required>
+            <input id="address" type="text"  placeholder="somewhere" class="validate" name="address"  value="{{ address }}" >
             <label for="telephone">Telephone</label>
             <input id="telephone" type="tel" pattern="[0-9]{9,10}" placeholder="092658610" name="telephone" value="{{ telephone }}">
             <label for="password">Password</label>
-            <input id="password" type="password"  placeholder="password" class="validate" name="password" required>
+            <input id="password" type="password"  placeholder="password" class="validate" name="password" >
             <button>register</button>
         </form>
     </div>
