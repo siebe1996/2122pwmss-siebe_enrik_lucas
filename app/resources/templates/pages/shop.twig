@@ -7,20 +7,27 @@
             <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
                 <div class="right-product-box">
                     <div class="product-item-filter row">
+
                         <div class="col-12 col-sm-8 text-center text-sm-left">
-                            <!--<div class="toolbar-sorter-right">
+                            <form action="shop.php" method="get">
+
+                            <div class="toolbar-sorter-right">
                                 <span>Sort by </span>
-                                <select id="basic" class="selectpicker show-tick form-control" data-placeholder="€ EUR">
-                                    <option data-display="Select">Nothing</option>
+
+                                <select id="basic" name="sort" class="selectpicker show-tick form-control" data-placeholder="€ EUR">
+                                    <a href="index.php"><option data-display="Select">Nothing</option></a>
                                     <option value="POPULARITY">Popularity</option>
                                     <option value="DESC">High Price → High Price</option>
                                     <option value="ASC">Low Price → High Price</option>
                                 </select>
 
-                            </div>-->
+                            </div>
+                                <input type="submit" value="Sort">
+                            </form>
 
                             <p>{% if amountOfResults != 'Op dit moment hebben we niets van deze product(en'  %}  Showing all ({% endif %} {{ amountOfResults}})</p>
                         </div>
+
                         <div class="col-12 col-sm-4 text-center text-sm-right">
                             <ul class="nav nav-tabs ml-auto">
                                 <li>

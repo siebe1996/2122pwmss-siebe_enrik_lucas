@@ -12,7 +12,7 @@ $twig = new Twig\Environment($loader, [
 
 $conn = \Services\DatabaseConnector::getConnection();
 
-$sort = isset($_POST['sort']) ? (string)$_POST['sort'] : '';
+$sort = isset($_GET['sort']) ? (string)$_GET['sort'] : '';
 
 
 $query = 'SELECT * FROM products';
