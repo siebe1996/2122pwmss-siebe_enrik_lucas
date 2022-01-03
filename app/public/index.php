@@ -1,16 +1,24 @@
 <?php
-require_once ('../vendor/autoload.php');
-require_once ('../config/database.php');
-require_once ('../src/Services/DatabaseConnector.php');
+require __DIR__ . '/../vendor/autoload.php';
 
-$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../resources/templates');
-$twig = new Twig\Environment($loader, [
-    'cache' => __DIR__ . '/../storage/cache',
-    'auto-reload' => true
-]);
-$variables = [
 
-];
 
-$tpl = $twig->load('pages/index.twig');
-echo $tpl->render($variables);
+$router = new \Bramus\Router\Router();
+
+$router->setNamespace('Http');
+//shop page
+$router->get('/shop', 'Controller@shop');
+$router->post('/shop', 'Controller@shop');
+//login page
+$router->get('/login', 'Controller@login');
+$router->post('/login', 'Controller@login');
+//register page
+$router->get('/register', 'Controller@register');
+$router->post('/register', 'Controller@register');
+//admin page
+$router->get('/admin', 'Controller@admin');
+$router->post('/admin', 'Controller@admin');
+
+
+
+$router->run();

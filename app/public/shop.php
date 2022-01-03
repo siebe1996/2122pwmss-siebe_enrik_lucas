@@ -52,7 +52,7 @@ if(trim($category)!='') {
     }
     $stmtName = $conn->prepare($query);
     $result = $stmtName->executeQuery(['%'.$category.'%']);
-    $companies = $result->fetchAllAssociative();
+    $products = $result->fetchAllAssociative();
 
 }
 
