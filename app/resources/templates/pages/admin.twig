@@ -1,0 +1,231 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+           <div class="errors">
+               {% for error in errors %}
+                   <tr>
+                       <td>
+
+                           <br>
+                           {{ error }}
+                           <br>
+                       </td>
+                   </tr>
+
+               {% endfor %}
+           </div>
+
+            <div class="test">
+                <h2 for="title">Enter a new product</h2>
+                <input type="hidden" name="moduleAction" value="insertProduct">
+                <label for="name">name</label>
+                <input id="name"  placeholder="product name" class="validate" name="name"  value="{{ name }}">
+                <label for="description">description</label>
+                <input id="description" placeholder="description" class="validate" name="description" value="{{ description }}">
+                <label for="price">price</label>
+                <input id="price" placeholder="price" class="validate" name="price" value="{{ price }}">
+                <label for="stock">stock</label>
+                <input id="stock" placeholder="stock" class="validate" name="stock" value="{{ stock }}">
+                <br><br>
+                <label for="type">type</label>
+                <br><br>
+                <select name="type" id="type">
+                    <option value="literverpakking">literverpakking</option>
+                    <option value="ijstaart">ijstaart</option>
+                </select>
+                <br><br>
+                <label for="categorie">categorie</label>
+                <br><br>
+                <select name="categorie" id="categorie">
+                    {% for cat in cats %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <label for="weight">weight</label>
+                <br><br>
+                <input id="weight"  placeholder="weight"  class="validate" name="weight" value="{{ weight }}">
+                <br><br>
+                <label for="featured">featured</label>
+                <br><br>
+
+                    <p>
+                        <input type="radio"  value="1" name="yes_no" checked>Yes</input>
+                    </p>
+                    <p>
+                        <input type="radio"  value="0"  name="yes_no">No</input>
+                    </p>
+
+                <br><br>
+                <button>insert product</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="form">
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+                {% for error in errors1 %}
+                    <tr>
+                        <td>
+
+                            <br>
+                            {{ error }}
+                            <br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </div>
+
+            <div class="test">
+                <h2 for="title">Enter a new categorie</h2>
+                <input type="hidden" name="moduleAction" value="insertCategorie">
+                <label for="categorieName">name</label>
+                <input id="categorieName"  placeholder="categorie name" class="validate" name="categorieName"  value="{{ categorieName }}">
+                <br><br>
+                <button>insert categorie</button>
+            </div>
+        </form>
+    </div>
+    <div class="form">
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+                {% for error in errors2 %}
+                    <tr>
+                        <td>
+
+                            <br>
+                            {{ error }}
+                            <br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </div>
+
+            <div class="test">
+                <h2 for="title">Delete a product</h2>
+                <input type="hidden" name="moduleAction" value="DeleteProduct">
+                <label for="product">product</label>
+                <br><br>
+                <select name="productCategorie" id="categorie">
+                    {% for item in items %}
+                        <option value="{{ item.id }}">{{ item.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <button>Delete product</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="form">
+
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+                {% for error in errors3 %}
+                    <tr>
+                        <td>
+
+                            <br>
+                            {{ error }}
+                            <br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </div>
+
+            <div class="test">
+                <h2 for="title">Edit a product</h2>
+                <label for="product">select a product</label>
+                <input type="hidden" name="moduleAction" value="SelectedProduct">
+                <br><br>
+                <select name="SelectedProduct" id="categorie">
+                    {% for item in items %}
+                        <option value="{{ item.id }}">{{ item.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <button>select product</button>
+            </div>
+        </form>
+
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+                {% for error in errors3 %}
+                    <tr>
+                        <td>
+
+                            <br>
+                            {{ error }}
+                            <br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </div>
+
+
+            <div class="test">
+
+                <input type="hidden" name="moduleAction" value="EditProduct">
+                {% for item in selected %}
+                    <h2 for="title">Edit selected product</h2>
+                    <input id="idin"  placeholder="product name" class="validate" name="idin" value="{{ idin }}">
+                <label for="name">name</label>
+                <input id="name"  placeholder="product name" class="validate" name="nameUpdate" value="{{ item.name }}">
+                <label for="description">description</label>
+                <input id="description" placeholder="description" class="validate" name="descriptionUpdate" value="{{ item.description }}">
+                <label for="price">price</label>
+                <input id="price" placeholder="price" class="validate" name="priceUpdate" value="{{ item.price }}">
+                <label for="stock">stock</label>
+                <input id="stock" placeholder="stock" class="validate" name="stockUpdate" value="{{ item.stock }}">
+                <br><br>
+                <label for="type">type</label>
+                <br><br>
+                <select name="type" id="type">
+                    <option value="literverpakking">literverpakking</option>
+                    <option value="ijstaart">ijstaart</option>
+                </select>
+                <br><br>
+                <label for="categorie">categorie</label>
+                <br><br>
+                <select name="categorieUpdate" id="categorie">
+                    {% for cat in cats %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <label for="weight">weight</label>
+                <br><br>
+                <input id="weight"  placeholder="weight"  class="validate" name="weightUpdate" value="{{ item.sortweight }}">
+                <br><br>
+                <label for="featured">featured</label>
+                <br><br>
+
+                <p>
+                    <input type="radio"  value="1" name="yes_no_update" checked>Yes</input>
+                </p>
+                <p>
+                    <input type="radio"  value="0"  name="yes_no_update">No</input>
+                </p>
+                    <br><br>
+                    <button>edit product</button>
+                {% endfor %}
+
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>

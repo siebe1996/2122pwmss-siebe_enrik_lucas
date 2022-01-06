@@ -18,7 +18,7 @@ $router->get('/register', 'Controller@register');
 //$router->post('/register', 'Controller@register');
 //admin page
 $router->get('/admin', 'Controller@admin');
-//$router->post('/admin', 'Controller@admin');
+$router->post('/admin', 'Controller@admin');
 
 $router->get('/index', 'Controller@index');
 
