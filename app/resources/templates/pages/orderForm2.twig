@@ -9,7 +9,7 @@
 <div class="login-page">
     <div class="form">
         <form class="col s12" method="post" action="order" enctype="multipart/form-data">
-            {% for error in errors %}
+            {% for error in errors2 %}
                 <tr>
                     <td>
 
@@ -19,24 +19,17 @@
                     </td>
                 </tr>
 
-            {% endfor %}public function order() {
-            $tpl = $this->twig->load('orderForm1.twig');
-            echo $tpl->render();
-            }
+            {% endfor %}
 
-            <input type="hidden" name="moduleAction" value="login">
-
-            <label for="name">Name</label>
-            <input id="" type="text"  placeholder="name" class="validate" name="name"  value="{{ name }}">
-
-            <label for="email">Email</label>
-            <input id="" type="email"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}">
-
-            <label for="address">Address</label>
-            <input id="" type="text"  placeholder="address" class="validate" name="address"  value="{{ address }}">
-
-            <label for="phone">Phone number</label>
-            <input id="" type="text"  placeholder="0455432211" class="validate" name="address"  value="{{ phone }}">
+            <input type="hidden" name="moduleAction2" value="moduleAction2" class ="moduleAction2">
+            <select name="selectedItem">
+                <option value = '0' {% if selectedItem is defined %} selected {% endif %}>Maak een keuze</option>
+                <option value = 'ijs' {% if selectedItem == ijs %} selected {% endif %}>ijs</option>
+                <option value = 'alcoholijs' {% if selectedItem == alcoholIjs %} selected {% endif %}>alcohol ijs</option>
+                <option value = 'ijskar' {% if selectedItem == ijskar %} selected {% endif %}>ijskar boeken</option>
+            </select>
+            <br>
+            <br>
 
             <button>next</button>
         </form>

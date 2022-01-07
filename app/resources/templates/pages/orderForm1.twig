@@ -18,22 +18,21 @@
                         <br>
                     </td>
                 </tr>
-
             {% endfor %}
 
-            <input type="hidden" name="moduleAction" value="login">
+            <input type="hidden" name="moduleAction1" value="moduleAction1">
 
-            <label for="name">Name</label>
+            <label for="name">Name*</label>
             <input id="" type="text"  placeholder="name" class="validate" name="name"  value="{{ name }}">
 
-            <label for="email">Email</label>
-            <input id="" type="email"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}">
+            <label for="email">Email*</label>
+            <input id="" type="text"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}">
 
             <label for="address">Address</label>
             <input id="" type="text"  placeholder="address" class="validate" name="address"  value="{{ address }}">
 
             <label for="phone">Phone number</label>
-            <input id="" type="text"  placeholder="0455432211" class="validate" name="address"  value="{{ phone }}">
+            <input id="" type="text"  placeholder="0455432211" class="validate" name="phone"  value="{{ phone }}">
 
             <button>next</button>
         </form>

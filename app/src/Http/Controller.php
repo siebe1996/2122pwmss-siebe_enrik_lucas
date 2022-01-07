@@ -2,9 +2,12 @@
 
 namespace Http;
 
+use Services\Helper;
+
 require_once ('../vendor/autoload.php');
 require_once ('../config/database.php');
 require_once ('../src/Services/DatabaseConnector.php');
+require_once ('../src/Services/Helper.php');
 
 class Controller {
     private $conn;
@@ -49,9 +52,74 @@ class Controller {
     }
 
     public function order() {
-        $tpl = $this->twig->load('orderForm1.twig');
-        echo $tpl->render();
+        if(isset($_POST['moduleAction1']) && $_POST['moduleAction1'] == 'moduleAction1') {
+            $formInfo = $this->procesOrderDetails1();
+            if($formInfo['errors']) {
+                $tpl = $this->twig->load('orderForm1.twig');
+                echo $tpl->render($formInfo);
+            }
+            else {
+                $tpl = $this->twig->load('orderForm2.twig');
+                echo $tpl->render($formInfo);
+            }
+        }
+        if(isset($_POST['moduleAction2']) && $_POST['moduleAction2'] == 'moduleAction2') {
+            $formInfo2 = $this->procesOrderDetails2();
+            if($formInfo2['errors2']) {
+                $tpl = $this->twig->load('orderForm2.twig');
+                echo $tpl->render($formInfo2);
+            }
+        }
+        else {
+            $tpl = $this->twig->load('orderForm1.twig');
+            echo $tpl->render();
+        }
     }
+
+    public function procesOrderDetails2() : array {
+        $selectedItem = isset($_POST['selectedItem']) ? (string)$_POST['selectedItem'] : '';
+        $allowedItems = ['ijs','alcoholijs','ijskar'];
+        echo $selectedItem;
+        if(in_array($selectedItem,$allowedItems)) {
+            return [
+                'errors2' =>'',
+                'selectedItem' =>$selectedItem,
+            ];
+        }
+        else return ['errors2' => '*Please submit a valid value'];
+    }
+
+
+
+
+
+    public function procesOrderDetails1() : array {
+        $email = isset($_POST['email']) ? (string)$_POST['email'] : '';
+        $name = isset($_POST['name']) ? (string)$_POST['name'] : '';
+        $address = isset($_POST['address']) ? (string)$_POST['address'] : '';
+        $phone = isset($_POST['phone']) ? (string)$_POST['phone'] : '';
+        $formErrors = [];
+        if(!\Services\Helper::validatePhonenumber($phone)) {
+            $formErrors[] = '*This phone number is invalid';
+        }
+        if (trim($email) == '') {
+            $formErrors[] = '*Please fill in an email';
+        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $formErrors[] = '*Email address is not valid.';
+        }
+        if (trim($name) == '') {
+            $formErrors[] = '*Please fill in a name';
+        }
+        return [
+            'errors' => $formErrors,
+            'name' => $name,
+            'email' => $email,
+            'address' => $address,
+            'phone' => $phone
+        ];
+    }
+
+
 
     public function admin() {
         $name = isset($_POST['name']) ? $_POST['name'] : '';

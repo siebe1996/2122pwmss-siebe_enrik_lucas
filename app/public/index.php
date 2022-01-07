@@ -22,6 +22,9 @@ $router->post('/admin', 'Controller@admin');
 
 $router->get('/index', 'Controller@index');
 
+$router->get('/order', 'Controller@order');
+$router->post('/order', 'Controller@order');
+
 $router->get('/hello', function () {
     echo '<h1>bramus/router</h1><p>Visit <code>/hello/<em>name</em></code> to get your Hello World mojo on!</p>';
 });

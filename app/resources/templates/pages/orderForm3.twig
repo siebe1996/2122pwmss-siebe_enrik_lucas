@@ -1,0 +1,36 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form class="col s12" method="post" action="order" enctype="multipart/form-data">
+            {% for error in errors3 %}
+                <tr>
+                    <td>
+
+                        <br>
+                        {{ error }}
+                        <br>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            <input type="hidden" name="moduleAction" value="login">
+            <select name="selectedItem">
+                <option value = '0' {% if selectedItem is defined %} selected {% endif %}>ijs</option>
+                <option value = 'ijs' {% if selectedItem == ijs %} selected {% endif %}>ijs</option>
+                <option value = 'alcohol ijs' {% if selectedItem == alcoholIjs %} selected {% endif %}>alcohol ijs</option>
+                <option value = 'ijskar boeken' {% if selectedItem == ijskar %} selected {% endif %}>ijskar boeken</option>
+            </select>
+
+            <button>next</button>
+        </form>
+    </div>
+</div>
+</body>
