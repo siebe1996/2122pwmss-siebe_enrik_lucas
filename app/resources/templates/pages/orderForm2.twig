@@ -1,0 +1,45 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form class="col s12" method="post" action="order" enctype="multipart/form-data">
+            {% for error in errors %}
+                <tr>
+                    <td>
+
+                        <br>
+                        {{ error }}
+                        <br>
+                    </td>
+                </tr>
+
+            {% endfor %}public function order() {
+            $tpl = $this->twig->load('orderForm1.twig');
+            echo $tpl->render();
+            }
+
+            <input type="hidden" name="moduleAction" value="login">
+
+            <label for="name">Name</label>
+            <input id="" type="text"  placeholder="name" class="validate" name="name"  value="{{ name }}">
+
+            <label for="email">Email</label>
+            <input id="" type="email"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}">
+
+            <label for="address">Address</label>
+            <input id="" type="text"  placeholder="address" class="validate" name="address"  value="{{ address }}">
+
+            <label for="phone">Phone number</label>
+            <input id="" type="text"  placeholder="0455432211" class="validate" name="address"  value="{{ phone }}">
+
+            <button>next</button>
+        </form>
+    </div>
+</div>
+</body>

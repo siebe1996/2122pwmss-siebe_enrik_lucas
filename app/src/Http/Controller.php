@@ -48,6 +48,11 @@ class Controller {
         //in here you type everything you need to do for shop (if the method gets too long create smaller methods and call them in here)
     }
 
+    public function order() {
+        $tpl = $this->twig->load('orderForm1.twig');
+        echo $tpl->render();
+    }
+
     public function admin() {
         $name = isset($_POST['name']) ? $_POST['name'] : '';
         $categorieName = isset($_POST['categorieName']) ? $_POST['categorieName'] : '';
