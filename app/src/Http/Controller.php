@@ -15,6 +15,7 @@ class Controller {
     private $mailer; //mailer is yet to be installed via composer
 
 
+
     public function __construct()
     {
         $this->conn = \Services\DatabaseConnector::getConnection();
@@ -76,17 +77,96 @@ class Controller {
         }
     }
 
+    public function order1() {
+        $formData = unserialize($_COOKIE['formData']);
+        var_dump($formData);
+        if(isset($_POST['moduleAction1']) && $_POST['moduleAction1'] == 'moduleAction1') {
+            $formInfo['form1'] = $this->procesOrderDetails1();
+            if($formInfo['form1']['errors']) {
+                $tpl = $this->twig->load('orderForm1.twig');
+                echo $tpl->render($formInfo['form1']);
+            }
+            else {
+                setcookie('formData',serialize($formInfo));
+                header(
+                    'Location: /order/2'
+                );
+            }
+        }
+        else {
+            $tpl = $this->twig->load('orderForm1.twig');
+            echo $tpl->render();
+        }
+    }
+
+    public function order2() {
+        $formData = unserialize($_COOKIE['formData']);
+        if(!$formData['form1']) {
+            header('Location: /order/1');
+        }
+        var_dump($formData['form1']);
+        if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') {
+            $formInfo['form2'] = $this->procesOrderDetails2();
+            if($formInfo['form2']['errors']) {
+                var_dump($formInfo['form2']);
+                $tpl = $this->twig->load('orderForm2.twig');
+                echo $tpl->render($formInfo['form2']);
+            }
+            else {
+                $formData['form2'] = $formInfo['form2'];
+                setcookie('formData',serialize($formData));
+                header(
+                    'Location: /order/3'
+                );
+            }
+        }
+        else {
+            $tpl = $this->twig->load('orderForm2.twig');
+            echo $tpl->render();
+        }
+    }
+
+    public function order3() {
+        $formData = unserialize($_COOKIE['formData']);
+        if(!($formData['form1'] && $formData['form2'])) {
+            if($formData['form1']) {
+                header('Location: /order/2');
+            }
+            else {
+                header('Location: /order/1');
+            }
+
+        }
+        var_dump($formData);
+        if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') {
+            $formInfo = $this->procesOrderDetails2();
+            if($formInfo['errors']) {
+                $tpl = $this->twig->load('orderForm2.twig');
+                echo $tpl->render($formInfo);
+            }
+            else {
+                header(
+                    'Location: /order/3'
+                );
+            }
+        }
+        else {
+            $tpl = $this->twig->load('orderForm2.twig');
+            echo $tpl->render();
+        }
+    }
+
     public function procesOrderDetails2() : array {
         $selectedItem = isset($_POST['selectedItem']) ? (string)$_POST['selectedItem'] : '';
         $allowedItems = ['ijs','alcoholijs','ijskar'];
         echo $selectedItem;
         if(in_array($selectedItem,$allowedItems)) {
             return [
-                'errors2' =>'',
+                'errors' =>'',
                 'selectedItem' =>$selectedItem,
             ];
         }
-        else return ['errors2' => '*Please submit a valid value'];
+        else return ['errors' => '*Please submit a valid value'];
     }
 
 
