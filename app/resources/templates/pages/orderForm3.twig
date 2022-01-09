@@ -2,13 +2,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="../../css/login.css">
 </head>
 <body>
 
 <div class="login-page">
     <div class="form">
-        <form class="col s12" method="post" action="order" enctype="multipart/form-data">
+        <form class="col s12" method="post" action="ijs" enctype="multipart/form-data">
             {% for error in errors3 %}
                 <tr>
                     <td>
@@ -21,15 +21,16 @@
 
             {% endfor %}
 
-            <input type="hidden" name="moduleAction" value="login">
-            <select name="selectedItem">
-                <option value = '0' {% if selectedItem is defined %} selected {% endif %}>ijs</option>
-                <option value = 'ijs' {% if selectedItem == ijs %} selected {% endif %}>ijs</option>
-                <option value = 'alcohol ijs' {% if selectedItem == alcoholIjs %} selected {% endif %}>alcohol ijs</option>
-                <option value = 'ijskar boeken' {% if selectedItem == ijskar %} selected {% endif %}>ijskar boeken</option>
-            </select>
+            {% for product in products %}
+                <label for='{{ product['id'] }}'><strong>{{ product['name'] }}</strong></label>
+                <input type="number" name = '{{ product['name'] }}' value = "0" class ="productInp" id ='{{ product['id'] }}'>
+                <img src="../../images/{{ product['id'] }}.jpg" alt ='{{ product['name'] }}' height = '150px' width = '150px'>
+                <br>
+                <br>
+            {% endfor %}
 
-            <button>next</button>
+            <input type="hidden" name="moduleAction" value="moduleAction">
+            <button>Next</button>
         </form>
     </div>
 </div>

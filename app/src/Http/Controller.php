@@ -115,9 +115,15 @@ class Controller {
             else {
                 $formData['form2'] = $formInfo['form2'];
                 setcookie('formData',serialize($formData));
-                header(
-                    'Location: /order/3'
-                );
+                if($formData['form2']['selectedItem'] == 'ijs') header('Location: /order/3/ijs');
+                if($formData['form2']['selectedItem'] == 'ijskar') header('Location: /order/3/ijskar');
+                if($formData['form2']['selectedItem'] == 'alcoholIjs') header('Location: /order/3/alcoholIjs');
+                else header('Location: /order/2)');
+
+
+
+
+
             }
         }
         else {
@@ -126,7 +132,13 @@ class Controller {
         }
     }
 
-    public function order3() {
+    public function getProductsOfCategory($categoryId) : array {
+        $stmt = $this->conn->prepare('SELECT * FROM products WHERE categories_id ='. $categoryId);
+        $products = $stmt->executeQuery()->fetchAllAssociative();
+        return $products;
+    }
+
+    public function order3Icecream() {
         $formData = unserialize($_COOKIE['formData']);
         if(!($formData['form1'] && $formData['form2'])) {
             if($formData['form1']) {
@@ -135,26 +147,39 @@ class Controller {
             else {
                 header('Location: /order/1');
             }
-
         }
-        var_dump($formData);
+        $products = $this->getProductsOfCategory(1);
+        $tpl = $this->twig->load('orderForm3.twig');
+        echo $tpl->render([
+            'products' => $products
+        ]);
         if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') {
-            $formInfo = $this->procesOrderDetails2();
-            if($formInfo['errors']) {
-                $tpl = $this->twig->load('orderForm2.twig');
-                echo $tpl->render($formInfo);
-            }
-            else {
-                header(
-                    'Location: /order/3'
-                );
-            }
-        }
-        else {
-            $tpl = $this->twig->load('orderForm2.twig');
-            echo $tpl->render();
+            $orderedProducts = $this->verifyProduct(1);
+            $formData = unserialize($_COOKIE['formData']);
+            $formData['form3'] = $orderedProducts;
+            setcookie('formData',serialize($formData));
+            var_dump($_COOKIE['formData']);
+            //header('Location: /order/2');
         }
     }
+
+    public function verifyProduct($categoryId) : array
+    {
+        $stmt = $this->conn->prepare('SELECT name FROM products WHERE categories_id =' . $categoryId);
+        $productNames = $stmt->executeQuery()->fetchAllAssociative();
+        //var_dump($productNames);
+        $orderedProducts = [];
+        foreach ($productNames as $productName) {
+
+            if ($_POST[$productName['name']]) {
+                $orderedProduct = [$productName['name'] => $_POST[$productName['name']]];
+                $orderedProducts[] = $orderedProduct;
+                var_dump($orderedProducts);
+            }
+        }
+        return $orderedProducts;
+    }
+
 
     public function procesOrderDetails2() : array {
         $selectedItem = isset($_POST['selectedItem']) ? (string)$_POST['selectedItem'] : '';
