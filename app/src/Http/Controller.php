@@ -4,6 +4,7 @@ namespace Http;
 
 use Services\Helper;
 
+
 require_once ('../vendor/autoload.php');
 require_once ('../config/database.php');
 require_once ('../src/Services/DatabaseConnector.php');
@@ -81,10 +82,10 @@ class Controller {
         $formData = unserialize($_COOKIE['formData']);
         var_dump($formData);
         if(isset($_POST['moduleAction1']) && $_POST['moduleAction1'] == 'moduleAction1') {
-            $formInfo['form1'] = $this->procesOrderDetails1();
-            if($formInfo['form1']['errors']) {
+            $formInfo['customerInfo'] = $this->procesOrderDetails1();
+            if($formInfo['customerInfo']['errors']) {
                 $tpl = $this->twig->load('orderForm1.twig');
-                echo $tpl->render($formInfo['form1']);
+                echo $tpl->render($formInfo['customerInfo']);
             }
             else {
                 setcookie('formData',serialize($formInfo));
@@ -100,30 +101,24 @@ class Controller {
     }
 
     public function order2() {
+        var_dump($_COOKIE['orderedProducts']);
         $formData = unserialize($_COOKIE['formData']);
-        if(!$formData['form1']) {
+        if(!$formData['customerInfo']) {
             header('Location: /order/1');
         }
-        var_dump($formData['form1']);
+        var_dump($formData);
         if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') {
-            $formInfo['form2'] = $this->procesOrderDetails2();
-            if($formInfo['form2']['errors']) {
-                var_dump($formInfo['form2']);
+            $choice = $this->procesOrderDetails2();
+            if($choice['errors']) {
+                var_dump($choice);
                 $tpl = $this->twig->load('orderForm2.twig');
-                echo $tpl->render($formInfo['form2']);
+                echo $tpl->render($choice);
             }
             else {
-                $formData['form2'] = $formInfo['form2'];
-                setcookie('formData',serialize($formData));
-                if($formData['form2']['selectedItem'] == 'ijs') header('Location: /order/3/ijs');
-                if($formData['form2']['selectedItem'] == 'ijskar') header('Location: /order/3/ijskar');
-                if($formData['form2']['selectedItem'] == 'alcoholIjs') header('Location: /order/3/alcoholIjs');
-                else header('Location: /order/2)');
-
-
-
-
-
+                if($choice['selectedItem'] == 'ijs') header('Location: /order/3/ijs');
+                else if($choice['selectedItem'] == 'ijskar') header('Location: /order/3/ijskar');
+                else if($choice['selectedItem'] == 'alcoholIjs') header('Location: /order/3/alcoholIjs');
+                else header('Location: /order/2');
             }
         }
         else {
@@ -139,15 +134,12 @@ class Controller {
     }
 
     public function order3Icecream() {
+        var_dump($_COOKIE['formData'] . PHP_EOL . ' sheesh');
         $formData = unserialize($_COOKIE['formData']);
-        if(!($formData['form1'] && $formData['form2'])) {
-            if($formData['form1']) {
-                header('Location: /order/2');
-            }
-            else {
-                header('Location: /order/1');
-            }
-        }
+        /*if(!($formData['customerInfo] && $choice)) {
+            if($formData['customerInfo]) header('Location: /order/2');
+            else header('Location: /order/1');
+        }*/
         $products = $this->getProductsOfCategory(1);
         $tpl = $this->twig->load('orderForm3.twig');
         echo $tpl->render([
@@ -155,12 +147,11 @@ class Controller {
         ]);
         if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') {
             $orderedProducts = $this->verifyProduct(1);
-            $formData = unserialize($_COOKIE['formData']);
-            $formData['form3'] = $orderedProducts;
-            setcookie('formData',serialize($formData));
-            var_dump($_COOKIE['formData']);
+            setcookie('orderedProducts',serialize($orderedProducts),0,'/');
+            var_dump($_COOKIE['orderedProducts']);
             //header('Location: /order/2');
         }
+
     }
 
     public function verifyProduct($categoryId) : array
@@ -170,13 +161,13 @@ class Controller {
         //var_dump($productNames);
         $orderedProducts = [];
         foreach ($productNames as $productName) {
-
             if ($_POST[$productName['name']]) {
                 $orderedProduct = [$productName['name'] => $_POST[$productName['name']]];
                 $orderedProducts[] = $orderedProduct;
-                var_dump($orderedProducts);
+
             }
         }
+        var_dump($orderedProducts);
         return $orderedProducts;
     }
 

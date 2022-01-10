@@ -1,0 +1,83 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/login.css">
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form class="col s12" method="post" action="ijs" enctype="multipart/form-data">
+            <p>Contact info:</p>
+            <tr>
+                <td>
+                    <br>
+                    <p>Email: {{ contact['email'] }}</p>
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br>
+                    <p>Name: {{ contact['name'] }}</p>
+                    <br>
+                </td>
+            </tr>
+            {% if contact['address'] %}
+            <tr>
+                <td>
+                    <br>
+                    <p>Address: {{ contact['address'] }}</p>
+                    <br>
+                </td>
+            </tr>
+            {% endif %}
+            {% if  {{ contact['phone'] }}%}
+            <tr>
+                <td>
+                    <br>
+                    <p>Phone: {{ contact['phone'] }}</p>
+                    <br>
+                </td>
+            </tr>
+            {% endif %}
+            <p>Order info:</p>
+
+            {% for product  in products %}
+                <tr>
+                    <td>
+                        <br>
+                        <p>Product: {{ product['name'] }}</p>
+                        <br>
+                    </td>
+                    <td>
+                        <br>
+                        <p>Aantal: {{ product['amount']}}</p>
+                        <br>
+                    </td>
+                    <td>
+                        <br>
+                        <p>Prijs: {{ product['priceProducts']}} (per stuk: {{ product['priceProduct'] }})</p>
+                        <br>
+                    </td>
+                </tr>
+
+            {% endfor %}
+            <tr>
+                <td>
+                    <br>
+                    <strong>{{ totalPrice }}</strong>
+                    <br>
+                </td>
+            </tr>
+
+
+            <input type="hidden" name="moduleAction" value="moduleAction">
+            <button>Order</button>
+
+            <input type="submit" class="validate" name="finishOrder" value="finish order">
+        </form>
+    </div>
+</div>
+</body>
