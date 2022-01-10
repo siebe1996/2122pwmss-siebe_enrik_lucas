@@ -151,7 +151,30 @@ class Controller {
             var_dump($_COOKIE['orderedProducts']);
             //header('Location: /order/2');
         }
+    }
 
+    public function finishOrder() {
+        $formData = unserialize($_COOKIE['formData']);
+        $orderedProducts = unserialize(($_COOKIE['orderedProducts']));
+        if($formData && $orderedProducts) {
+            foreach($orderedProducts as $orderedProduct) {
+                $this->getPriceOfProduct($orderedProduct);
+            }
+            $customerInfo = $formData['customerInfo'];
+            $tpl = $this->twig->load('orderForm3.twig');
+            /*echo $tpl->render([
+                'products' => $products
+            ]);*/
+
+        }
+    }
+
+    public function getPriceOfProduct($product,$amount) {
+        $query = 'SELECT * FROM products WHERE name = :name';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name',$product);
+        $price = $stmt->executeQuery()->fetchAssociative();
+        return round($price * $amount,2);
     }
 
     public function verifyProduct($categoryId) : array
@@ -195,9 +218,7 @@ class Controller {
         $address = isset($_POST['address']) ? (string)$_POST['address'] : '';
         $phone = isset($_POST['phone']) ? (string)$_POST['phone'] : '';
         $formErrors = [];
-        if(!\Services\Helper::validatePhonenumber($phone)) {
-            $formErrors[] = '*This phone number is invalid';
-        }
+        if(!\Services\Helper::validatePhonenumber($phone))  $formErrors[] = '*This phone number is invalid';
         if (trim($email) == '') {
             $formErrors[] = '*Please fill in an email';
         } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
