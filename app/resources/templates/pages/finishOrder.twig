@@ -8,71 +8,54 @@
 
 <div class="login-page">
     <div class="form">
-        <form class="col s12" method="post" action="ijs" enctype="multipart/form-data">
-            <p>Contact info:</p>
+        <form class="col s12" method="post" action="finish" enctype="multipart/form-data">
+            <h2>Contact info:</h2>
             <tr>
                 <td>
-                    <br>
-                    <p>Email: {{ contact['email'] }}</p>
-                    <br>
+                    <p><strong>Email:</strong> {{ contact['email'] }}</p>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <br>
-                    <p>Name: {{ contact['name'] }}</p>
-                    <br>
+                    <p><strong>Name:</strong> {{ contact['name'] }}</p>
                 </td>
             </tr>
             {% if contact['address'] %}
             <tr>
                 <td>
-                    <br>
-                    <p>Address: {{ contact['address'] }}</p>
-                    <br>
+                    <p><strong>Address:</strong> {{ contact['address'] }}</p>
                 </td>
             </tr>
             {% endif %}
-            {% if  {{ contact['phone'] }}%}
+            {% if contact['phone'] %}
             <tr>
                 <td>
-                    <br>
-                    <p>Phone: {{ contact['phone'] }}</p>
-                    <br>
+                    <p><strong>Phone:</strong> {{ contact['phone'] }}</p>
                 </td>
             </tr>
             {% endif %}
-            <p>Order info:</p>
-
+            <br>
+            <h2>Order info:</h2>
             {% for product  in products %}
                 <tr>
                     <td>
-                        <br>
-                        <p>Product: {{ product['name'] }}</p>
-                        <br>
+                        <p><strong>Product:</strong> {{ product['name'] }}</p>
                     </td>
                     <td>
-                        <br>
-                        <p>Aantal: {{ product['amount']}}</p>
-                        <br>
+                        <p><strong>Aantal:</strong> {{ product['amount']}}</p>
                     </td>
                     <td>
-                        <br>
-                        <p>Prijs: {{ product['priceProducts']}} (per stuk: {{ product['priceProduct'] }})</p>
-                        <br>
+                        <p><strong>Prijs:</strong> €{{ product['priceProducts']}} <small>(per stuk: €{{ product['priceProduct'] }})</small></p>
                     </td>
                 </tr>
-
             {% endfor %}
             <tr>
                 <td>
                     <br>
-                    <strong>{{ totalPrice }}</strong>
+                    <strong>Totaal bedrag: €{{ totalPrice }}</strong>
                     <br>
                 </td>
             </tr>
-
-
             <input type="hidden" name="moduleAction" value="moduleAction">
             <button>Order</button>
 

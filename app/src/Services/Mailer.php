@@ -4,7 +4,7 @@ namespace Services;
 use Swift_Message;
 use Swift_SmtpTransport;
 
-require_once('../../vendor/autoload.php');
+
 
 class Mailer {
 
@@ -24,7 +24,7 @@ class Mailer {
     public function send($body,$variables) {
         $date = date('d/m/Y');
         $message = (new Swift_Message('Nieuwe bestelling ' . $date))
-            ->setFrom(['noreply-orders@gmail.com' => 'John Doe'])
+            ->setFrom(['noreply-orders@gmail.com' => 'New order notifier'])
             ->setTo(['sven.ijswinkel@gmail.com'])
             ->setBody($body->render($variables),'text/html');
         $this->mailer->send($message);

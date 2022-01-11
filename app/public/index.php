@@ -37,10 +37,13 @@ $router->post('/order/2', 'Controller@order2');
 $router->get('/order/3/ijs', 'Controller@order3Icecream');
 $router->post('/order/3/ijs', 'Controller@order3Icecream');
 
-$router->get('/hello', function () {
-    echo '<h1>bramus/router</h1><p>Visit <code>/hello/<em>name</em></code> to get your Hello World mojo on!</p>';
-});
+$router->get('/order/finish', 'Controller@finishOrder');
+$router->post('/order/finish', 'Controller@finishOrder');
 
+$router->get('/order/submit', 'Controller@submitOrder');
+$router->post('/order/submit', 'Controller@submitOrder');
 
+$router->get('/order/3/alcoholijs', 'Controller@order3alcohol');
+$router->post('/order/3/alcoholijs', 'Controller@order3alcohol');
 
 $router->run();

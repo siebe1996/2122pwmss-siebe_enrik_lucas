@@ -3,12 +3,15 @@
 namespace Http;
 
 use Services\Helper;
+use Services\Mailer;
 
 
 require_once ('../vendor/autoload.php');
 require_once ('../config/database.php');
 require_once ('../src/Services/DatabaseConnector.php');
 require_once ('../src/Services/Helper.php');
+require_once ('../src/Services/Mailer.php');
+
 
 class Controller {
     private $conn;
@@ -20,8 +23,6 @@ class Controller {
     public function __construct()
     {
         $this->conn = \Services\DatabaseConnector::getConnection();
-        //$this->mailer = new \Services\Mailer();
-
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../resources/templates/pages/');
         $this->twig = new \Twig\Environment($loader, [
             'auto_reload' => true // set to false on production
@@ -101,27 +102,35 @@ class Controller {
     }
 
     public function order2() {
-        var_dump($_COOKIE['orderedProducts']);
         $formData = unserialize($_COOKIE['formData']);
         if(!$formData['customerInfo']) {
             header('Location: /order/1');
         }
-        var_dump($formData);
         if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') {
             $choice = $this->procesOrderDetails2();
             if($choice['errors']) {
-                var_dump($choice);
                 $tpl = $this->twig->load('orderForm2.twig');
                 echo $tpl->render($choice);
             }
             else {
-                if($choice['selectedItem'] == 'ijs') header('Location: /order/3/ijs');
-                else if($choice['selectedItem'] == 'ijskar') header('Location: /order/3/ijskar');
-                else if($choice['selectedItem'] == 'alcoholIjs') header('Location: /order/3/alcoholIjs');
-                else header('Location: /order/2');
+                if(in_array($choice['selectedItem'],['ijs','ijskar','alcoholijs'])) {
+                    if($choice['selectedItem'] == 'ijs') {
+                        header('Location: /order/3/ijs');
+                    }
+                    if($choice['selectedItem'] == 'ijskar') {
+                        header('Location: /order/3/ijskar');
+                    }
+                    if($choice['selectedItem'] == 'alcoholijs') {
+                        header('Location: /order/3/alcoholijs');
+                    }
+                }
+                else {
+                    header('Location: /order/2');
+                }
             }
         }
         else {
+            var_dump('zefroihjnzefgohijkuzefghojuizefuioh');
             $tpl = $this->twig->load('orderForm2.twig');
             echo $tpl->render();
         }
@@ -134,12 +143,11 @@ class Controller {
     }
 
     public function order3Icecream() {
-        var_dump($_COOKIE['formData'] . PHP_EOL . ' sheesh');
         $formData = unserialize($_COOKIE['formData']);
-        /*if(!($formData['customerInfo] && $choice)) {
-            if($formData['customerInfo]) header('Location: /order/2');
+        if(!($formData['customerInfo'])) {
+            if($formData['customerInfo']) header('Location: /order/2');
             else header('Location: /order/1');
-        }*/
+        }
         $products = $this->getProductsOfCategory(1);
         $tpl = $this->twig->load('orderForm3.twig');
         echo $tpl->render([
@@ -149,32 +157,101 @@ class Controller {
             $orderedProducts = $this->verifyProduct(1);
             setcookie('orderedProducts',serialize($orderedProducts),0,'/');
             var_dump($_COOKIE['orderedProducts']);
-            //header('Location: /order/2');
+            header('Location: /order/2');
         }
+    }
+
+    public function order3Alcohol() {
+        var_dump($_COOKIE['formData'] . PHP_EOL . ' sheesh');
+        $formData = unserialize($_COOKIE['formData']);
+        if(!($formData['customerInfo'])) {
+            header('Location: /order/1');
+        }
+        $products = $this->getProductsOfCategory(2);
+        $tpl = $this->twig->load('orderForm3.twig');
+        echo $tpl->render([
+            'products' => $products
+        ]);
+        if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') {
+            $orderedProducts = $this->verifyProduct(1);
+            setcookie('orderedProducts',serialize($orderedProducts),0,'/');
+            var_dump($_COOKIE['orderedProducts']);
+            header('Location: /order/2');
+        }
+    }
+
+    public function reformProductarray($arr) {
+        $name = key($arr);
+        $amount = $arr[$name];
+        return [
+            'name' => $name,
+            'amount' => $amount
+        ];
+    }
+
+    public function getStockOfProduct($product)  {
+        $stmt = $this->conn->prepare('SELECT stock FROM products WHERE name = :name');
+        $stmt->bindParam(':name',$product);
+        return $stmt->executeQuery()->fetchAssociative();
+    }
+
+    public function checkIfOrderIsCorrect($price,$reformedProduct) : array {
+        $error = [];
+        if(!$price) $error[]='This product is currently not for sale';
+        if($this->getStockOfProduct($reformedProduct['name'])>$reformedProduct['amount']) $error[]='We currently only have '. $this->getStockOfProduct($reformedProduct['name']) . 'of the product: '.$reformedProduct['name'] .'.';
+        return $error;
     }
 
     public function finishOrder() {
         $formData = unserialize($_COOKIE['formData']);
+        if(!$_COOKIE['orderedProducts']) header('Location: /order/2');
         $orderedProducts = unserialize(($_COOKIE['orderedProducts']));
+        $products = [];
+        $totalPrice = 0;
         if($formData && $orderedProducts) {
             foreach($orderedProducts as $orderedProduct) {
-                $this->getPriceOfProduct($orderedProduct);
+                $reformedProduct = $this->reformProductarray($orderedProduct);
+                $price = $this->getPriceOfProduct($reformedProduct['name'],$reformedProduct['amount']);
+                $product = [
+                    'name' => $reformedProduct['name'],
+                    'amount' => $reformedProduct['amount'],
+                    'priceProduct' => $price['each'],
+                    'priceProducts' => $price['total']
+                ];
+                $products[] = $product;
+                $totalPrice+=$price['total'];
             }
             $customerInfo = $formData['customerInfo'];
-            $tpl = $this->twig->load('orderForm3.twig');
-            /*echo $tpl->render([
-                'products' => $products
-            ]);*/
-
+            $tpl = $this->twig->load('finishOrder.twig');
+            echo $tpl->render([
+                'products' => $products,
+                'contact' => $customerInfo,
+                'totalPrice' => $totalPrice
+            ]);
         }
+        if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') $this->submitForm([
+            'products' => $products,
+            'contact' => $customerInfo,
+            'totalPrice' => $totalPrice
+        ]);
+    }
+    public function submitForm($var) {
+        $mailer = new Mailer();
+        $mailer->send($this->twig->load('mail.twig'),$var);
+        header('location: /shop.php');
     }
 
     public function getPriceOfProduct($product,$amount) {
-        $query = 'SELECT * FROM products WHERE name = :name';
+        $query = 'SELECT price FROM products WHERE name = :name';
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name',$product);
-        $price = $stmt->executeQuery()->fetchAssociative();
-        return round($price * $amount,2);
+        $price = $stmt->executeQuery()->fetchAssociative()['price'];
+
+        echo'eerezrezerzerzer';
+        return [
+            'each' => $price,
+            'total' => round($price * $amount,2)
+        ];
     }
 
     public function verifyProduct($categoryId) : array
