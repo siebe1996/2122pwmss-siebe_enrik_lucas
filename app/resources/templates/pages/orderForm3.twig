@@ -1,0 +1,39 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/login.css">
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form class="col s12" method="post" action="ijs" enctype="multipart/form-data">
+            {% for error in errors3 %}
+                <tr>
+                    <td>
+
+                        <br>
+                        {{ error }}
+                        <br>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            {% for product in products %}
+                <label for='{{ product['id'] }}'><strong>{{ product['name'] }}</strong></label>
+                <input type="number" name = '{{ product['name'] }}' value = "0" class ="productInp" id ='{{ product['id'] }}'>
+                <img src="../../images/{{ product['id'] }}.jpg" alt ='{{ product['name'] }}' height = '150px' width = '150px'>
+                <br>
+                <br>
+            {% endfor %}
+
+            <input type="hidden" name="moduleAction" value="moduleAction">
+            <button>Order more</button>
+
+            <input type="submit" class="validate" name="finishOrder" value="finish order">
+        </form>
+    </div>
+</div>
+</body>

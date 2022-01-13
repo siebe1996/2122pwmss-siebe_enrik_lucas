@@ -1,0 +1,66 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/login.css">
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form class="col s12" method="post" action="finish" enctype="multipart/form-data">
+            <h2>Contact info:</h2>
+            <tr>
+                <td>
+                    <p><strong>Email:</strong> {{ contact['email'] }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><strong>Name:</strong> {{ contact['name'] }}</p>
+                </td>
+            </tr>
+            {% if contact['address'] %}
+            <tr>
+                <td>
+                    <p><strong>Address:</strong> {{ contact['address'] }}</p>
+                </td>
+            </tr>
+            {% endif %}
+            {% if contact['phone'] %}
+            <tr>
+                <td>
+                    <p><strong>Phone:</strong> {{ contact['phone'] }}</p>
+                </td>
+            </tr>
+            {% endif %}
+            <br>
+            <h2>Order info:</h2>
+            {% for product  in products %}
+                <tr>
+                    <td>
+                        <p><strong>Product:</strong> {{ product['name'] }}</p>
+                    </td>
+                    <td>
+                        <p><strong>Aantal:</strong> {{ product['amount']}}</p>
+                    </td>
+                    <td>
+                        <p><strong>Prijs:</strong> €{{ product['priceProducts']}} <small>(per stuk: €{{ product['priceProduct'] }})</small></p>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td>
+                    <br>
+                    <strong>Totaal bedrag: €{{ totalPrice }}</strong>
+                    <br>
+                </td>
+            </tr>
+            <input type="hidden" name="moduleAction" value="moduleAction">
+            <button>Order</button>
+
+            <input type="submit" class="validate" name="finishOrder" value="finish order">
+        </form>
+    </div>
+</div>
+</body>

@@ -1,0 +1,54 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form class="col s12" method="post" action="2" enctype="multipart/form-data">
+            {% if errors %}
+                <tr>
+                    <td>
+
+                        <br>
+                        *Please give in a valid option.
+                        <br>
+                    </td>
+                </tr>
+
+            {% endif %}
+
+
+            <input type="hidden" name="moduleAction" value="moduleAction" class ="moduleAction">
+            <select name="selectedItem">
+                <option value = '0' {% if selectedItem is not defined %} selected {% endif %}>Maak een keuze</option>
+                <option value = 'ijs' {% if selectedItem == 'ijs' %} selected {% endif %}>ijs</option>
+                <option value = 'alcoholijs' {% if selectedItem == 'alcoholIjs' %} selected {% endif %}>alcohol ijs</option>
+                <option value = 'ijskar' {% if selectedItem == 'ijskar' %} selected {% endif %}>ijskar boeken</option>
+            </select>
+            <br>
+            <br>
+
+            <button>next</button>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <style>
+                #finishOrder {
+                    text-decoration: none;
+
+                    padding: 20px;
+                    color:white;
+                    background-color:dodgerblue;
+                }
+            </style>
+            <a href = '/order/finish' id ="finishOrder">FINISH ORDER</a>
+        </form>
+    </div>
+</div>
+</body>
