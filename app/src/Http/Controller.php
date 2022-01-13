@@ -1,7 +1,7 @@
 <?php
 
 namespace Http;
-
+use SplFileInfo;
 require_once ('../vendor/autoload.php');
 require_once ('../config/database.php');
 require_once ('../src/Services/DatabaseConnector.php');
@@ -35,6 +35,7 @@ class Controller {
         die('index');
     }
 
+
     public function register() {
         $tpl = $this->twig->load('register.twig');
         echo $tpl->render();
@@ -61,6 +62,7 @@ class Controller {
         $toRemove = isset($_POST['productCategorie']) ? $_POST['productCategorie'] : '';
         $selected = isset($_POST['SelectedProduct']) ? $_POST['SelectedProduct'] : '';
         $nameUpdate = isset($_POST['nameUpdate']) ? $_POST['nameUpdate'] : '';
+        $delOrderId = isset($_POST['delOrderId']) ? $_POST['delOrderId'] : '';
         $descriptionUpdate = isset($_POST['descriptionUpdate']) ? $_POST['descriptionUpdate'] : '';
         $priceUpdate = isset($_POST['priceUpdate']) ? $_POST['priceUpdate'] : '';
         $stockUpdate = isset($_POST['stockUpdate']) ? $_POST['stockUpdate'] : '';
@@ -93,8 +95,27 @@ class Controller {
             }
 
             if (sizeof($formErrors) == 0){
+
                 $stmt = $this->conn->prepare('INSERT into products VALUES(?,?,?,?,?,?,?,?,?,?)');
                 $rowCount = $stmt->executeStatement([null,$name,$stock,$description,$price,$type,'NULL',$featured,$categorie,$weight]);
+                $numItems = $this->conn->fetchOne('SELECT id FROM products where name = ?', array($name));
+
+                if (sizeof($formErrors3) == 0){
+                    if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'insertProduct')) {
+                        if (isset($_FILES['avatar']) && ($_FILES['avatar']['error'] === UPLOAD_ERR_OK) && sizeof($formErrors) == 0) {
+                            if (in_array((new SplFileInfo($_FILES['avatar']['name']))->getExtension(), ['jpeg', 'jpg', 'png', 'gif'])) {
+                                $moved = @move_uploaded_file($_FILES['avatar']['tmp_name'], __DIR__ . '/../../public/images/' . $numItems . '.jpg');
+                                if ($moved) {
+                                    echo '<p><img src="' . $_FILES['avatar']['name'] . '" alt="" /><p>';
+                                } else {
+                                    echo('<p>Error while saving file in the uploads folder</p>');
+                                }
+                            } else {
+                                echo('<p>Invalid extension. Only .jpeg, .jpg, .png or .gif allowed</p>');
+                            }
+                        }
+                    }
+                }
 
             }
         }
@@ -125,6 +146,21 @@ class Controller {
             }
         }
 
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'DeleteOrder')) {
+
+            if(empty(trim($_POST["delOrderId"]))) {
+                $formErrors2[] = "*Please insert an order id to remove.";
+            }
+
+            if (sizeof($formErrors2) == 0){
+                $stmt = $this->conn->prepare('DELETE FROM order_has_product WHERE order_id = ?');
+                $rowCount = $stmt->executeStatement([$delOrderId]);
+                $stmt = $this->conn->prepare('DELETE FROM orders WHERE id = ?');
+                $rowCount = $stmt->executeStatement([$delOrderId]);
+
+            }
+        }
+
         $prod = [];
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'SelectedProduct')) {
             $prod = $this->conn->fetchAllAssociative('SELECT * FROM products WHERE id = '.$selected);
@@ -147,15 +183,9 @@ class Controller {
             if(empty(trim($_POST["stockUpdate"]))) {
                 $stockUpdate = 0;
             }
-
-            if (sizeof($formErrors3) == 0){
-                $stmt = $this->conn->executeStatement('UPDATE products set name = ?,stock = ?,description= ?,price= ?,sortweight = ?,categories_id = ?,featured = ? WHERE id = ?',array($nameUpdate,$stockUpdate,$descriptionUpdate,$priceUpdate,$weightUpdate,$categorieUpdate,$featuredUpdate,$idin));
-                // $rowCount = $stmt->executeStatement([$nameUpdate,$stockUpdate,$descriptionUpdate,$priceUpdate,$weightUpdate]);
-
-            }
         }
-
         $productlist = $this->conn->fetchAllAssociative('SELECT * FROM products');
+        $orderlist = $this->conn->fetchAllAssociative('SELECT * FROM orders');
         $cats = $this->conn->fetchAllAssociative('SELECT * FROM categories');
         $tpl = $this->twig->load('admin.twig');
         echo $tpl->render([
@@ -165,6 +195,7 @@ class Controller {
             'errors3' => $formErrors3,
             'name' => $name,
             'stock' => $stock,
+            'orders' => $orderlist,
             'description' => $description,
             'price' => $price,
             'weight' => $weight,
