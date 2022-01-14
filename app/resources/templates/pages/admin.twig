@@ -230,7 +230,6 @@
             </div>
         </form>
 
-        ///////
     </div>
 
     <div class="form">
@@ -269,9 +268,9 @@
 
                 <br><br>
                 <label for="product">select an order</label>
-                <input type="hidden" name="moduleAction" value="SelectedProduct">
+                <input type="hidden" name="moduleAction" value="SelectedOrder">
                 <br><br>
-                <label for="order id">name</label>
+                <label for="orderid">name</label>
                 <input id="orderid"  placeholder="order id" class="validate" name="orderid" value="{{ order.id }}">
                 <br><br>
                 <button>select order</button>
@@ -295,56 +294,21 @@
 
 
             <div class="test">
-
-                <input type="hidden" name="moduleAction" value="EditProduct">
-                {% for item in selected %}
-                    <h2 for="title">Edit selected order</h2>
-                    <input id="idin"  placeholder="product name" class="validate" name="idin" value="{{ idin }}">
-                    <label for="name">name</label>
-                    <input id="name"  placeholder="product name" class="validate" name="nameUpdate" value="{{ item.name }}">
-                    <label for="description">description</label>
-                    <input id="description" placeholder="description" class="validate" name="descriptionUpdate" value="{{ item.description }}">
-                    <label for="price">price</label>
-                    <input id="price" placeholder="price" class="validate" name="priceUpdate" value="{{ item.price }}">
-                    <label for="stock">stock</label>
-                    <input id="stock" placeholder="stock" class="validate" name="stockUpdate" value="{{ item.stock }}">
-                    <br><br>
-                    <label for="type">type</label>
-                    <br><br>
-                    <select name="type" id="type">
-                        <option value="literverpakking">literverpakking</option>
-                        <option value="ijstaart">ijstaart</option>
-                    </select>
-                    <br><br>
-                    <label for="categorie">categorie</label>
-                    <br><br>
-                    <select name="categorieUpdate" id="categorie">
-                        {% for cat in cats %}
-                            <option value="{{ cat.id }}">{{ cat.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <br><br>
-                    <label for="weight">weight</label>
-                    <br><br>
-                    <input id="weight"  placeholder="weight"  class="validate" name="weightUpdate" value="{{ item.sortweight }}">
-                    <br><br>
-                    <label for="featured">featured</label>
-                    <br><br>
-
-                    <p>
-                        <input type="radio"  value="1" name="yes_no_update" checked>Yes</input>
-                    </p>
-                    <p>
-                        <input type="radio"  value="0"  name="yes_no_update">No</input>
-                    </p>
-                    <br><br>
-                    <button>edit order</button>
+                <input type="hidden" name="moduleAction" value="EditOrder">
+                <h2 for="title">Edit selected order</h2>
+                {% for order in selectedOrder %}
+                    <div class="ordersDiv">
+                        <label for="order_id">product_id</label>
+                        <input id="order_id"  placeholder="product_id" class="validate" name="product_id" value="{{ order.product_id }}">
+                        <label for="quantity">quantity</label>
+                        <input id="quantity"  placeholder="quantity" class="validate" name="quantity" value="{{ order.quantity }}">
+                    </div>
                 {% endfor %}
-
+                <br><br>
+                <button>edit order</button>
             </div>
         </form>
 
-        ///////
     </div>
 
 </div>

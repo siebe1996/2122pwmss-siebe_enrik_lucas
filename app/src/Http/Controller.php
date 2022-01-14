@@ -2,8 +2,12 @@
 
 namespace Http;
 use SplFileInfo;
+
 use Services\Helper;
 use Services\Mailer;
+
+
+
 require_once ('../vendor/autoload.php');
 require_once ('../config/database.php');
 require_once ('../src/Services/DatabaseConnector.php');
@@ -284,7 +288,7 @@ class Controller {
         }
         else return ['errors' => '*Please submit a valid value'];
     }
-    
+
 
     public function procesOrderDetails1() : array {
         $email = isset($_POST['email']) ? (string)$_POST['email'] : '';
@@ -319,7 +323,10 @@ class Controller {
         $type = isset($_POST['type']) ? $_POST['type'] : '';
         $categorie = isset($_POST['categorie']) ? $_POST['categorie'] : '';
         $weight = isset($_POST['weight']) ? $_POST['weight'] : '';
+        $product_id[] = isset($_POST['product_id']) ? $_POST['product_id'] : '';
+        $quantity[] = isset($_POST['quantity']) ? $_POST['quantity'] : '';
         $featured = isset($_POST['yes_no']) ? $_POST['yes_no'] : '0';
+        $orderid =  isset($_POST['orderid']) ? $_POST['orderid'] : '';
         $toRemove = isset($_POST['productCategorie']) ? $_POST['productCategorie'] : '';
         $selected = isset($_POST['SelectedProduct']) ? $_POST['SelectedProduct'] : '';
         $nameUpdate = isset($_POST['nameUpdate']) ? $_POST['nameUpdate'] : '';
@@ -336,6 +343,7 @@ class Controller {
         $formErrors1 = [];
         $formErrors2 = [];
         $formErrors3 = [];
+        $selectedOrder = [];
 
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'insertProduct')) {
 
@@ -418,9 +426,34 @@ class Controller {
                 $rowCount = $stmt->executeStatement([$delOrderId]);
                 $stmt = $this->conn->prepare('DELETE FROM orders WHERE id = ?');
                 $rowCount = $stmt->executeStatement([$delOrderId]);
-
             }
         }
+
+
+         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'SelectedOrder')) {
+             $selectedOrder = $this->conn->fetchAllAssociative('select * FROM order_has_product WHERE order_id = ?' , array($orderid));
+         }
+
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'EditOrder')) {
+
+            if(empty(trim($_POST["product_id"]))) {
+                $formErrors3[] = "*Please enter a product id.";
+            }
+
+            if(empty(trim($_POST["quantity"]))) {
+                $formErrors3[] = "*Please enter a quantity.";
+            }
+
+            var_dump($quantity);
+            var_dump($orderid);
+            //$stmt = $this->conn->prepare('insert into categories VALUES(?,?)');
+            //$rowCount = $stmt->executeStatement([null,$categorieName]);
+
+
+
+
+        }
+
 
         $prod = [];
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'SelectedProduct')) {
@@ -450,6 +483,7 @@ class Controller {
         $cats = $this->conn->fetchAllAssociative('SELECT * FROM categories');
         $tpl = $this->twig->load('admin.twig');
         echo $tpl->render([
+            'selectedOrder' => $selectedOrder,
             'errors' => $formErrors,
             'errors1' => $formErrors1,
             'errors2' => $formErrors2,
