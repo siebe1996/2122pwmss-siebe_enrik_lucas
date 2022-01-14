@@ -43,7 +43,8 @@ $router->post('/order/finish', 'Controller@finishOrder');
 $router->get('/order/submit', 'Controller@submitOrder');
 $router->post('/order/submit', 'Controller@submitOrder');
 
-$router->get('/order/3/alcoholijs', 'Controller@order3alcohol');
-$router->post('/order/3/alcoholijs', 'Controller@order3alcohol');
+
+$router->get('/order/3/(\d+)', 'Controller@orderProduct');
+$router->post('/order/3/(\d+)', 'Controller@orderProduct');
 
 $router->run();

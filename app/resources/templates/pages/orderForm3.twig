@@ -8,7 +8,7 @@
 
 <div class="login-page">
     <div class="form">
-        <form class="col s12" method="post" action="ijs" enctype="multipart/form-data">
+        <form class="col s12" method="post" action="{{ form }}" enctype="multipart/form-data">
             {% for error in errors3 %}
                 <tr>
                     <td>
@@ -31,8 +31,6 @@
 
             <input type="hidden" name="moduleAction" value="moduleAction">
             <button>Order more</button>
-
-            <input type="submit" class="validate" name="finishOrder" value="finish order">
         </form>
     </div>
 </div>

@@ -24,9 +24,10 @@
 
             <input type="hidden" name="moduleAction" value="moduleAction" class ="moduleAction">
             <select name="selectedItem">
-                <option value = '0' {% if selectedItem is not defined %} selected {% endif %}>Maak een keuze</option>
-                <option value = 'ijs' {% if selectedItem == 'ijs' %} selected {% endif %}>ijs</option>
-                <option value = 'alcoholijs' {% if selectedItem == 'alcoholIjs' %} selected {% endif %}>alcohol ijs</option>
+                {% for category in categories %}
+                <option value = '{{ category.id }}'>{{ category.name }}</option>
+                {% endfor %}
+                <option value = '0'  selected>Maak een keuze</option>
                 <option value = 'ijskar' {% if selectedItem == 'ijskar' %} selected {% endif %}>ijskar boeken</option>
             </select>
             <br>
@@ -47,7 +48,9 @@
                     background-color:dodgerblue;
                 }
             </style>
+            {% if orderedProducts %}
             <a href = '/order/finish' id ="finishOrder">FINISH ORDER</a>
+            {% endif %}
         </form>
     </div>
 </div>
