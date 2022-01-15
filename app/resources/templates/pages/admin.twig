@@ -270,8 +270,8 @@
                 <label for="product">select an order</label>
                 <input type="hidden" name="moduleAction" value="SelectedOrder">
                 <br><br>
-                <label for="orderid">name</label>
-                <input id="orderid"  placeholder="order id" class="validate" name="orderid" value="{{ order.id }}">
+                <label for="orderid">order id</label>
+                <input id="orderid"  placeholder="order id" class="validate" name="orderid" value="{{ orderid }}">
                 <br><br>
                 <button>select order</button>
             </div>
@@ -295,13 +295,69 @@
 
             <div class="test">
                 <input type="hidden" name="moduleAction" value="EditOrder">
+
                 <h2 for="title">Edit selected order</h2>
-                {% for order in selectedOrder %}
+                {% for out in output1 %}
                     <div class="ordersDiv">
-                        <label for="order_id">product_id</label>
-                        <input id="order_id"  placeholder="product_id" class="validate" name="product_id" value="{{ order.product_id }}">
+                        <input type="hidden" name="order_id1" value="{{ out.order_id }}">
+                        <label for="order_id">{{ out.name }}</label>
+                        <input id="order_id"  placeholder="{{ out.name }}" class="validate" name="productid1"  value="{{ out.product_id }}">
                         <label for="quantity">quantity</label>
-                        <input id="quantity"  placeholder="quantity" class="validate" name="quantity" value="{{ order.quantity }}">
+                        <input id="quantity"  placeholder="quantity1" class="validate" name="quantity1" value="{{ out.quantity }}">
+                    </div>
+                {% endfor %}
+                {% for out in output2 %}
+                    <div class="ordersDiv">
+                        <input type="hidden" name="order_id2" value="{{ out.order_id }}">
+                        <label for="order_id">{{ out.name }}</label>
+                        <input id="order_id"  placeholder="{{ out.name }}" class="validate" name="productid2"  value="{{ out.product_id }}">
+                        <label for="quantity">quantity</label>
+                        <input id="quantity"  placeholder="quantity1" class="validate" name="quantity2" value="{{ out.quantity }}">
+                    </div>
+                {% endfor %}
+                {% for out in output3 %}
+                    <div class="ordersDiv">
+                        <input type="hidden" name="order_id3" value="{{ out.order_id }}">
+                        <label for="order_id">{{ out.name }}</label>
+                        <input id="order_id"  placeholder="{{ out.name }}" class="validate" name="productid3"  value="{{ out.product_id }}">
+                        <label for="quantity">quantity</label>
+                        <input id="quantity"  placeholder="quantity3" class="validate" name="quantity3" value="{{ out.quantity }}">
+                    </div>
+                {% endfor %}
+                {% for out in output4 %}
+                    <div class="ordersDiv">
+                        <input type="hidden" name="order_id4" value="{{ out.order_id }}">
+                        <label for="order_id">{{ out.name }}</label>
+                        <input id="order_id"  placeholder="{{ out.name }}" class="validate" name="productid4"  value="{{ out.product_id }}">
+                        <label for="quantity">quantity</label>
+                        <input id="quantity"  placeholder="quantity1" class="validate" name="quantity4" value="{{ out.quantity }}">
+                    </div>
+                {% endfor %}
+                {% for out in output5 %}
+                    <div class="ordersDiv">
+                        <input type="hidden" name="order_id5" value="{{ out.order_id }}">
+                        <label for="order_id">{{ out.name }}</label>
+                        <input id="order_id"  placeholder="{{ out.name }}" class="validate" name="productid5"  value="{{ out.product_id }}">
+                        <label for="quantity">quantity</label>
+                        <input id="quantity"  placeholder="quantity1" class="validate" name="quantity5" value="{{ out.quantity }}">
+                    </div>
+                {% endfor %}
+                {% for out in output6 %}
+                    <div class="ordersDiv">
+                        <input type="hidden" name="order_id6" value="{{ out.order_id }}">
+                        <label for="order_id">{{ out.name }}</label>
+                        <input id="order_id"  placeholder="{{ out.name }}" class="validate" name="productid6"  value="{{ out.product_id }}">
+                        <label for="quantity">quantity</label>
+                        <input id="quantity"  placeholder="quantity1" class="validate" name="quantity6" value="{{ out.quantity }}">
+                    </div>
+                {% endfor %}
+                {% for out in output7 %}
+                    <div class="ordersDiv">
+                        <input type="hidden" name="order_id7" value="{{ out.order_id }}">
+                        <label for="order_id">{{ out.name }}</label>
+                        <input id="order_id"  placeholder="{{ out.name }}" class="validate" name="productid7"  value="{{ out.product_id }}">
+                        <label for="quantity">quantity</label>
+                        <input id="quantity"  placeholder="quantity1" class="validate" name="quantity7" value="{{ out.quantity }}">
                     </div>
                 {% endfor %}
                 <br><br>
@@ -310,6 +366,97 @@
         </form>
 
     </div>
+
+
+    <div class="form">
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+                {% for error in errors %}
+                    <tr>
+                        <td>
+
+                            <br>
+                            {{ error }}
+                            <br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </div>
+
+            <div class="test">
+                <h2 for="title">Enter a new event</h2>
+
+                <input type="hidden" name="moduleAction" value="insertEvent">
+                <label for="name">name</label>
+                <input id="name"  placeholder="event name" class="validate" name="eventname"  value="{{ eventname }}">
+                <label for="description">description</label>
+                <input id="description" placeholder="event description" class="validate" name="eventdescription" value="{{ eventdescription }}">
+                <label for="location">location</label>
+                <input id="location" placeholder="event location" class="validate" name="eventlocation" value="{{ eventlocation }}">
+
+                <label for="description">start datum</label>
+                <input id="description" placeholder="2022-01-01 14:00:00" class="validate" name="sdate" value="{{ sdate }}">
+                <label for="location">eind datum</label>
+                <input id="location" placeholder="2022-01-01 14:00:00" class="validate" name="edate" value="{{ edate }}">
+
+                <button>insert event</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="form">
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+                {% for error in errors3 %}
+                    <tr>
+                        <td>
+
+                            <br>
+                            {{ error }}
+                            <br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </div>
+
+
+            <div class="test">
+                <h2 for="title">Delete en event</h2>
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Start</th>
+                        <th>End</th>
+                    </tr>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.id }}</td>
+                            <td>{{ event.name}}</td>
+                            <td>{{ event.start_time }}</td>
+                            <td>{{ event.end_time }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <br><br>
+                <label for="product">Delete an event</label>
+                <input type="hidden" name="moduleAction" value="deleteEvent">
+                <br><br>
+                <label for="orderid">event id</label>
+                <input id="orderid"  placeholder="event id" class="validate" name="eventid" value="{{ eventid }}">
+                <br><br>
+                <button>delete event</button>
+            </div>
+
+
+        </form>
+
+    </div>
+
 
 </div>
 </body>

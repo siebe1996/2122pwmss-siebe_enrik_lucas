@@ -339,6 +339,40 @@ class Controller {
         $categorieUpdate= isset($_POST['categorieUpdate']) ? $_POST['categorieUpdate'] : '';
         $featuredUpdate= isset($_POST['yes_no_update']) ? $_POST['yes_no_update'] : '';
         $idin = isset($_POST['idin']) ? $_POST['idin'] : '';
+        $eventid  = isset($_POST['eventid']) ? $_POST['eventid'] : '';
+
+        $eventname = isset($_POST['eventname']) ? $_POST['eventname'] : '';
+        $eventdescription = isset($_POST['eventdescription']) ? $_POST['eventdescription'] : '';
+        $eventlocation= isset($_POST['eventlocation']) ? $_POST['eventlocation'] : '';
+        $sdate = isset($_POST['sdate']) ? $_POST['sdate'] : '';
+        $edate= isset($_POST['edate']) ? $_POST['edate'] : '';
+
+        //////////////
+
+
+        $quantity1 = isset($_POST['quantity1']) ? $_POST['quantity1'] : '';
+        $productid1 = isset($_POST['productid1']) ? $_POST['productid1'] : '';
+        $order_id1 = isset($_POST['order_id1']) ? $_POST['order_id1'] : '';
+        $quantity2 = isset($_POST['quantity2']) ? $_POST['quantity2'] : '';
+        $productid2 = isset($_POST['productid2']) ? $_POST['productid2'] : '';
+        $order_id2 = isset($_POST['order_id2']) ? $_POST['order_id2'] : '';
+        $quantity3 = isset($_POST['quantity3']) ? $_POST['quantity3'] : '';
+        $productid3 = isset($_POST['productid3']) ? $_POST['productid3'] : '';
+        $order_id3= isset($_POST['order_id3']) ? $_POST['order_id3'] : '';
+        $quantity4 = isset($_POST['quantity4']) ? $_POST['quantity4'] : '';
+        $productid4 = isset($_POST['productid4']) ? $_POST['productid4'] : '';
+        $order_id4 = isset($_POST['order_id4']) ? $_POST['order_id4'] : '';
+        $quantity5 = isset($_POST['quantity5']) ? $_POST['quantity5'] : '';
+        $productid5 = isset($_POST['productid5']) ? $_POST['productid5'] : '';
+        $order_id5= isset($_POST['order_id5']) ? $_POST['order_id5'] : '';
+        $quantity6 = isset($_POST['quantity6']) ? $_POST['quantity6'] : '';
+        $productid6 = isset($_POST['productid6']) ? $_POST['productid6'] : '';
+        $order_id6 = isset($_POST['order_id6']) ? $_POST['order_id6'] : '';
+        $quantity7 = isset($_POST['quantity7']) ? $_POST['quantity7'] : '';
+        $productid7 = isset($_POST['productid7']) ? $_POST['productid7'] : '';
+        $order_id7= isset($_POST['order_id7']) ? $_POST['order_id7'] : '';
+
+
         $formErrors = [];
         $formErrors1 = [];
         $formErrors2 = [];
@@ -402,6 +436,49 @@ class Controller {
             }
         }
 
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'insertEvent')) {
+
+            if(empty(trim($_POST["eventname"]))) {
+                $formErrors[] = "*Please enter an event name.";
+            }
+
+            if(empty(trim($_POST["eventdescription"]))) {
+                $formErrors[] = "*Please enter an event description.";
+            }
+
+            if(empty(trim($_POST["eventlocation"]))) {
+                $formErrors[] = "*Please enter the event location.";
+            }
+
+            if(empty(trim($_POST["sdate"]))) {
+                $formErrors[] = "*Please enter a start date.";
+            }
+            if(empty(trim($_POST["edate"]))) {
+                $formErrors[] = "*Please enter an end date.";
+            }
+
+            if (sizeof($formErrors) == 0){
+                $stmt = $this->conn->prepare('INSERT into arrangements VALUES(?,?,?,?,?,?,?,?,?)');
+                $rowCount = $stmt->executeStatement([null,$eventname,$eventdescription,$eventlocation, $sdate,$edate,1,1,'www.google.com']);
+
+
+            }
+        }
+
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'insertCategorie')) {
+
+            if(empty(trim($_POST["categorieName"]))) {
+                $formErrors1[] = "*Please enter a categorie name.";
+            }
+
+            if (sizeof($formErrors1) == 0){
+                $stmt = $this->conn->prepare('insert into categories VALUES(?,?)');
+                $rowCount = $stmt->executeStatement([null,$categorieName]);
+
+            }
+        }
+
+
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'DeleteProduct')) {
 
             if(empty(trim($_POST["productCategorie"]))) {
@@ -411,6 +488,18 @@ class Controller {
             if (sizeof($formErrors2) == 0){
                 $stmt = $this->conn->prepare('DELETE FROM products WHERE id = ?');
                 $rowCount = $stmt->executeStatement([$toRemove]);
+
+            }
+        }
+
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'deleteEvent')) {
+            if(empty(trim($_POST["eventid"]))) {
+                $formErrors2[] = "*Please enter event id to remove.";
+            }
+
+            if (sizeof($formErrors2) == 0){
+                $stmt = $this->conn->prepare('DELETE FROM arrangements WHERE id = ?');
+                $rowCount = $stmt->executeStatement([$eventid]);
 
             }
         }
@@ -430,28 +519,64 @@ class Controller {
         }
 
 
-         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'SelectedOrder')) {
-             $selectedOrder = $this->conn->fetchAllAssociative('select * FROM order_has_product WHERE order_id = ?' , array($orderid));
+
+        $output1 = [];
+        $output2 = [];
+        $output3 = [];
+        $output4 = [];
+        $output5 = [];
+        $output6 = [];
+        $output7 = [];
+
+
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'SelectedOrder')) {
+             $selectedOrder = $this->conn->fetchAllAssociative('select * FROM order_has_product INNER JOIN products ON order_has_product.product_id = products.id WHERE order_id = ?', array($orderid));
+             $output1 = array_slice($selectedOrder, 0, 1);
+             $output2 = array_slice($selectedOrder, 1,1);
+             $output3 = array_slice($selectedOrder, 2,1);
+             $output4 = array_slice($selectedOrder, 3,1);
+             $output5 = array_slice($selectedOrder, 4,1);
+             $output6 = array_slice($selectedOrder, 5,1);
+             $output7 = array_slice($selectedOrder, 6,1);
          }
 
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'EditOrder')) {
-
-            if(empty(trim($_POST["product_id"]))) {
-                $formErrors3[] = "*Please enter a product id.";
+            if(empty(trim($_POST["quantity1"]))) {
+             }else{
+                $stmt = $this->conn->prepare('UPDATE order_has_product SET quantity = ? WHERE product_id = ? AND order_id = ?');
+                $rowCount = $stmt->executeStatement([$quantity1, $productid1 , $order_id1]);
+            }
+            if(empty(trim($_POST["quantity2"]))) {
+             }else{
+                $stmt = $this->conn->prepare('UPDATE order_has_product SET quantity = ? WHERE product_id = ? AND order_id = ?');
+                $rowCount = $stmt->executeStatement([$quantity2, $productid2 , $order_id2]);
+            }
+            if(empty(trim($_POST["quantity3"]))) {
+             }else{
+                $stmt = $this->conn->prepare('UPDATE order_has_product SET quantity = ? WHERE product_id = ? AND order_id = ?');
+                $rowCount = $stmt->executeStatement([$quantity3, $productid3 , $order_id3]);
+            }
+            if(empty(trim($_POST["quantity4"]))) {
+             }else{
+                $stmt = $this->conn->prepare('UPDATE order_has_product SET quantity = ? WHERE product_id = ? AND order_id = ?');
+                $rowCount = $stmt->executeStatement([$quantity4, $productid4 , $order_id4]);
             }
 
-            if(empty(trim($_POST["quantity"]))) {
-                $formErrors3[] = "*Please enter a quantity.";
+            if(empty(trim($_POST["quantity5"]))) {
+
+             }else{
+                $stmt = $this->conn->prepare('UPDATE order_has_product SET quantity = ? WHERE product_id = ? AND order_id = ?');
+                $rowCount = $stmt->executeStatement([$quantity5, $productid5 , $order_id5]);
             }
-
-            var_dump($quantity);
-            var_dump($orderid);
-            //$stmt = $this->conn->prepare('insert into categories VALUES(?,?)');
-            //$rowCount = $stmt->executeStatement([null,$categorieName]);
-
-
-
-
+            if(empty(trim($_POST["quantity6"]))) {
+             }else{
+                $stmt = $this->conn->prepare('UPDATE order_has_product SET quantity = ? WHERE product_id = ? AND order_id = ?');
+                $rowCount = $stmt->executeStatement([$quantity6, $productid6 , $order_id6]);
+            } if(empty(trim($_POST["quantity7"]))) {
+             }else{
+                $stmt = $this->conn->prepare('UPDATE order_has_product SET quantity = ? WHERE product_id = ? AND order_id = ?');
+                $rowCount = $stmt->executeStatement([$quantity7, $productid7 , $order_id7]);
+            }
         }
 
 
@@ -478,11 +603,20 @@ class Controller {
                 $stockUpdate = 0;
             }
         }
+        $events = $this->conn->fetchAllAssociative('SELECT * FROM arrangements');
         $productlist = $this->conn->fetchAllAssociative('SELECT * FROM products');
         $orderlist = $this->conn->fetchAllAssociative('SELECT * FROM orders');
         $cats = $this->conn->fetchAllAssociative('SELECT * FROM categories');
         $tpl = $this->twig->load('admin.twig');
         echo $tpl->render([
+            'events' => $events,
+           'output1'=> $output1,
+        'output2' =>$output2  ,
+        'output3' =>$output3 ,
+        'output4' =>$output4  ,
+        'output5' => $output5 ,
+            'output6' =>$output6  ,
+            'output7' => $output7 ,
             'selectedOrder' => $selectedOrder,
             'errors' => $formErrors,
             'errors1' => $formErrors1,
@@ -491,6 +625,7 @@ class Controller {
             'name' => $name,
             'stock' => $stock,
             'orders' => $orderlist,
+            'orderid' => $orderid,
             'description' => $description,
             'price' => $price,
             'weight' => $weight,
