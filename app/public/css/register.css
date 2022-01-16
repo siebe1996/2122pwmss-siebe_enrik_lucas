@@ -86,12 +86,13 @@
   color: #EF3B3A;
 }
 body {
-  background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
+  font-size: 17px;
+  background: #9a8960; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #9a8960, #aa77c9);
+  background: -moz-linear-gradient(right, rgba(103, 175, 108, 0.35), #9a8960);
+  background: -o-linear-gradient(right, #9a8960, #788fec);
+  background: linear-gradient(to left, #61b465, #9a8960);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;      
+  -moz-osx-font-smoothing: grayscale;
 }

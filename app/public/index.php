@@ -12,10 +12,16 @@ $router->get('/shop', 'Controller@shop');
 //$router->post('/shop', 'Controller@shop');
 //login page
 $router->get('/login', 'Controller@login');
-//$router->post('/login', 'Controller@login');
+
+$router->get('/logout', 'Controller@logout');
+$router->post('/login', 'Controller@login');
+
+
+$router->get('/shop', 'Controller@shop');
+$router->post('/shop', 'Controller@shop');
 //register page
 $router->get('/register', 'Controller@register');
-//$router->post('/register', 'Controller@register');
+$router->post('/register', 'Controller@register');
 //admin page
 $router->get('/admin', 'Controller@admin');
 $router->post('/admin', 'Controller@admin');

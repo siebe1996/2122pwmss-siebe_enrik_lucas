@@ -24,6 +24,7 @@ class Controller {
 
     public function __construct()
     {
+        session_start();
         $this->conn = \Services\DatabaseConnector::getConnection();
         //$this->mailer = new \Services\Mailer();
 
@@ -67,30 +68,131 @@ class Controller {
     }
 
     public function login() {
+        $email = isset($_POST['email']) ? $_POST['email'] : '';
+        $password = isset($_POST['password']) ? $_POST['password'] : '';
+        $formErrors = [];
+        $result = [];
+
+        $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
+        if ($user){
+            header('location: index');
+            exit();
+        }
+
+
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
+            $user = $this->conn->fetchAssociative('SELECT * FROM users WHERE email = ?', [$email]);
+
+            if ($user !== false) {
+
+                if (password_verify($password, $user['password'])) {
+
+                    $_SESSION['user'] = $user;
+                    header('location: index');
+                    exit();
+                }
+
+                else {
+                    $formErrors[] = 'Invalid login credentials';
+
+                }
+            }
+            // username & password are not valid
+            else {
+                $formErrors[] = 'Invalid login credentials';
+
+            }
+        }
+
         $tpl = $this->twig->load('login.twig');
-        echo $tpl->render();
-         die('login');
+        echo $tpl->render([
+            'email' => $email,
+            'errors' => $formErrors,
+            'res'=>$result
+        ]);
     }
+
+    public function logout(){
+        session_destroy();
+        header("location: index");
+    }
+
+    public function register(){
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $address = $_POST['address'] ?? '';
+        $telephone = $_POST['telephone'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        $formErrors = [];
+
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'register')) {
+
+            if(empty(trim($_POST["name"]))) {
+                $formErrors[] = "Please enter your name.";
+            }
+
+            if(empty(trim($_POST["email"]))) {
+                $formErrors[] = "Please enter your email.";
+            }
+
+            if(empty(trim($_POST["address"]))) {
+                $formErrors[] = "Please enter your address.";
+            }
+
+            if(empty(trim($_POST["password"]))) {
+                $formErrors[] = "Please enter your password.";
+            }
+
+            if (sizeof($formErrors) == 0){
+                $stmt = $this->conn->prepare('INSERT INTO users (name, email, address, phonenumber, password) VALUES (?, ?, ?, ?, ?)');
+                $result = $stmt->executeStatement([$name, $email, $address, $telephone, password_hash($password, PASSWORD_DEFAULT)]);
+                header('Location: login.php');
+            }
+
+
+        }
+
+        $tpl = $this->twig->load('register.twig');
+        echo $tpl->render([
+            'name' => $name,
+            'email' => $email,
+            'address' => $address,
+            'telephone' => $telephone,
+            'errors' => $formErrors
+        ]);
+
+    }
+
+
 
     public function index () {
 
-        die('index');
+        $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
+        if ($user){
+            $url = 'logout';
+            $text = 'logout';
+
+
+        }else{
+            $url = 'login';
+            $text = 'login';
+
+        }
+
+        $tpl = $this->twig->load('index.twig');
+        echo $tpl->render([
+           'url'=> $url,
+            'text'=> $text
+        ]);
     }
 
-    public function register() {
-        $tpl = $this->twig->load('register.twig');
-        echo $tpl->render();
-        die('register');
-        //in here you type everything you need to do for register (if the method gets too long create smaller methods and call them in here)
+
+    public function shop () {
+        $tpl = $this->twig->load('shop.twig');
+        echo $tpl->render([
+        ]);
     }
-
-    public function shop() {
-        echo 'zaeazeazeazeazea';
-        die('shop');
-        //in here you type everything you need to do for shop (if the method gets too long create smaller methods and call them in here)
-    }
-
-
 
     public function order1() {
         //$formData = unserialize($_COOKIE['formData']);
@@ -653,6 +755,19 @@ class Controller {
     }
 
     public function admin() {
+
+
+        $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
+        if (!$user){
+            header('location: index');
+            exit();
+        }else{
+            if ($user['is_admin'] == 0){
+                header('location: index');
+                exit();
+            }
+        }
+
         $formErrors1 = $this->deleteOrder();
         $formErrors2 = $this->insertCategories();
         $formErrors5 = $this->deleteEvent();
