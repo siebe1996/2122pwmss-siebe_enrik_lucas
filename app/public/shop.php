@@ -36,7 +36,6 @@ if (strtoupper($sort) == 'ASC' || strtoupper($sort) == 'DESC' || strtoupper($sor
     else if(strtoupper($sort) == 'POPULARITY') {
         $query = 'SELECT * FROM products ORDER BY stock';
     }
-
     $stmt = $conn->prepare($query);
     $products = $stmt->executeQuery()->fetchAllAssociative();
 }

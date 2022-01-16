@@ -25,6 +25,7 @@
                 <label for='{{ product['id'] }}'><strong>{{ product['name'] }}</strong></label>
                 <input type="number" name = '{{ product['name'] }}' value = "0" class ="productInp" id ='{{ product['id'] }}'>
                 <img src="../../images/{{ product['id'] }}.jpg" alt ='{{ product['name'] }}' height = '150px' width = '150px'>
+                <p>Prijs per stuk: €{{ product['price'] }}</p>
                 <br>
                 <br>
             {% endfor %}

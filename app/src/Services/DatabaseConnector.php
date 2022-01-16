@@ -31,4 +31,8 @@ class DatabaseConnector
         return $connection;
     }
 
+    public static function convertOrderToJSON($order) : string {
+        return json_encode($order);
+    }
+
 }
