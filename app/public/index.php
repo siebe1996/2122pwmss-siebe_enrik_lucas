@@ -20,6 +20,10 @@ $router->get('/register', 'Controller@register');
 $router->get('/admin', 'Controller@admin');
 $router->post('/admin', 'Controller@admin');
 
+
+$router->get('/calendar', 'Controller@calendar');
+$router->post('/calendar', 'Controller@calendar');
+
 $router->get('/index', 'Controller@index');
 
 $router->get('/order', 'Controller@order');

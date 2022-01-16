@@ -33,11 +33,43 @@ class Controller {
         ]);
     }
 
+    public function calendar(){
+        $eventsdate = $this->conn->fetchAllAssociative('SELECT start_time FROM arrangements');
+        $eventsdate2 = $this->conn->fetchAllAssociative('SELECT end_time FROM arrangements');
+        $eventsname = $this->conn->fetchAllAssociative('SELECT name FROM arrangements');
+
+        $simple_array = array();
+        $simple_array2 = array();
+        $simple_array3 = array();
+
+        foreach($eventsdate as $d)
+        {
+            $simple_array[]=$d['start_time'];
+        }
+        foreach($eventsdate2 as $d)
+        {
+            $simple_array2[]=$d['end_time'];
+        }
+        foreach($eventsname as $d)
+        {
+            $simple_array3[]=$d['name'];
+        }
+
+        $test = [];
+        for ($x = 0; $x <= count($simple_array3) - 1; $x++) {
+            $test[] = [$simple_array[$x],$simple_array2[$x],$simple_array3[$x]];
+        }
+        $tpl = $this->twig->load('calendar.twig');
+        echo $tpl->render([
+            'events' => $test
+        ]);
+
+    }
+
     public function login() {
         $tpl = $this->twig->load('login.twig');
         echo $tpl->render();
-        //in here you type everything you need to do for login (if the method gets too long create smaller methods and call them in here)
-        die('login');
+         die('login');
     }
 
     public function index () {
