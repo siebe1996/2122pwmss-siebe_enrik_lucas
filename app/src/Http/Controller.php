@@ -483,8 +483,6 @@ class Controller {
             header('location: index');
             exit();
         }
-
-
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'login')) {
             $user = $this->conn->fetchAssociative('SELECT * FROM users WHERE email = ?', [$email]);
 
@@ -617,10 +615,11 @@ class Controller {
 
     public function shop () {
         $productlist = $this->conn->fetchAllAssociative('SELECT * FROM products');
-
+        $categories = $this->getCategories();
         $tpl = $this->twig->load('shop.twig');
         echo $tpl->render([
-            'products'=>$productlist
+            'products'=>$productlist,
+            'categories' => $categories
         ]);
     }
 
