@@ -1,3 +1,4 @@
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -264,6 +265,8 @@
 
     </div>
 
+
+
     <div class="form">
 
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
@@ -471,6 +474,43 @@
 
         </form>
 
+    </div>
+
+
+
+    <div class="form">
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+            </div>
+            <div class="test">
+                <h2 for="title">Add a tag</h2>
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.id }}</td>
+                            <td>{{ product.name}}</td>
+                            <td>{{ product.description }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <br><br>
+                <label for="product">Add a tag</label>
+                <input type="hidden" name="moduleAction" value="SelectedPID">
+                <br><br>
+                <label for="orderid">order id</label>
+                <input id="orderid"  placeholder="order id" class="validate" name="orderidTag" value="{{ orderidTag }}">
+                <label for="orderid">tag</label>
+                <input id="orderid"  placeholder="tag" class="validate" name="tag" value="{{ tag }}">
+                <br><br>
+                <button>add tag</button>
+            </div>
+        </form>
     </div>
 
 

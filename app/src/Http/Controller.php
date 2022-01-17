@@ -22,7 +22,6 @@ class Controller {
     private $twig;
     private $mailer; //mailer is yet to be installed via composer
 
-
     public function __construct()
     {
         $this->conn = \Services\DatabaseConnector::getConnection();
@@ -34,19 +33,28 @@ class Controller {
         ]);
         session_start();
 
-        if(!isset($_COOKIE['PopupTimer'])) {
+        $test =  isset($_COOKIE['PopupTimer']) ? (string)$_COOKIE['PopupTimer'] : '';
+
+        if(empty(trim($test))) {
             $cookie_name = "PopupTimer";
             $cookie_value = date('d');
             setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+            $this->x = 11;
         }
 
     }
 
+
+
+
     public function order1() {
+        //$formData = unserialize($_COOKIE['formData']);
+        //var_dump($formData);
         if(isset($_POST['moduleAction1']) && $_POST['moduleAction1'] == 'moduleAction1') {
             $formInfo['customerInfo'] = $this->procesOrderDetails1();
             if($formInfo['customerInfo']['errors']) {
-
+                var_dump('error');
+                var_dump($formInfo['customerInfo']['errors']);
                 $tpl = $this->twig->load('orderForm1.twig');
                 echo $tpl->render($formInfo['customerInfo']);
             }
@@ -62,7 +70,6 @@ class Controller {
             echo $tpl->render();
         }
     }
-
     public function getCategories() {
         return $this->conn->prepare('SELECT * FROM categories')->executeQuery()->fetchAllAssociative();
     }
@@ -71,6 +78,8 @@ class Controller {
         $categories = $this->getCategories();
         $this->getArrayOfCategoryIds();
         $orderedProducts = isset($_COOKIE['orderedProducts']) ? (string)$_COOKIE['orderedProducts'] : '';
+        echo('Ordered products array: ' . $orderedProducts . PHP_EOL);
+
         $formData = unserialize($_COOKIE['formData']);
         var_dump($formData);
         if(!$formData['customerInfo']) {
@@ -333,8 +342,14 @@ class Controller {
         $date = isset($_POST['date']) ? (string)$_POST['date'] : '';
         $formErrors = [];
 
+        echo 'The date problem: ';
+        var_dump(Helper::validateDate($date));
+        echo' End of the date problem';
         if(Helper::validateDate($date)) {
             $formErrors[]=Helper::validateDate($date);
+            echo 'The date problem: ';
+            var_dump(Helper::validateDate($date));
+            echo' End of the date problem';
         }
         if(!\Services\Helper::validatePhonenumber($phone))  $formErrors[] = '*This phone number is invalid';
         if (trim($email) == '') {
@@ -494,20 +509,24 @@ class Controller {
         $popupName = $this->conn->fetchOne('select message FROM popups where id = 1');
         $productlist = $this->conn->fetchAllAssociative('SELECT * FROM products WHERE featured = 1');
         $productlist2 = $this->conn->fetchAllAssociative('SELECT * FROM products');
-
-
         $date2 = new DateTime('today');
         $V = $date2->getTimestamp();
 
-        if ($V > $_COOKIE['PopupTimer']){
-            $date1 = new DateTime('today');
-            $date1->modify('+'.$popup.'day');
-            setcookie('PopupTimer', $date1->getTimestamp(), time() + (86400 * 30), "/");
-            $cook = 1;
-        }else{
-            $cook = 0;
-        }
+        $test =  isset($_COOKIE['PopupTimer']) ? (string)$_COOKIE['PopupTimer'] : '';
 
+
+        $cook = 0;
+        if(!empty(trim($test))) {
+            if ($V > $_COOKIE['PopupTimer']){
+                $date1 = new DateTime('today');
+                $date1->modify('+'.$popup.'day');
+                setcookie('PopupTimer', $date1->getTimestamp(), time() + (86400 * 30), "/");
+                $cook = 1;
+            }else{
+                $cook = 0;
+            }
+
+        }
         $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
         if ($user){
             $url = 'logout';
@@ -519,7 +538,6 @@ class Controller {
             $text = 'login';
 
         }
-
         $tpl = $this->twig->load('index.twig');
         echo $tpl->render([
             'products' => $productlist,
@@ -853,6 +871,39 @@ class Controller {
         }
     }
 
+
+    public function addTag(){
+
+        $formErrors1 = [];
+        $Product = isset($_POST['orderidTag']) ? $_POST['orderidTag'] : '';
+        $tag = isset($_POST['tag']) ? $_POST['tag'] : '';
+
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'SelectedPID')) {
+
+            if(empty(trim($_POST["orderidTag"]))) {
+                $formErrors1[] = "*Please enter a product id.";
+            }
+            if(empty(trim($_POST["tag"]))) {
+                $formErrors1[] = "*Please enter a tag.";
+            }
+
+
+            if (sizeof($formErrors1) == 0){
+                $id = $this->conn->fetchOne('select  COUNT(*) FROM tags ') + 1;
+                $stmt = $this->conn->prepare('insert into tags VALUES(?,?)');
+                $rowCount = $stmt->executeStatement([$id,$tag]);
+
+
+
+
+                $stmt = $this->conn->prepare('insert into product_has_tag VALUES(?,?)');
+                $rowCount = $stmt->executeStatement([$Product,$id]);
+            }
+        }
+
+        return $formErrors1;
+    }
+
     public function admin() {
 
         $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
@@ -867,6 +918,7 @@ class Controller {
         }
 
         $formErrors1 = $this->deleteOrder();
+        $formErrors7 = $this->addTag();
         $formErrors2 = $this->insertCategories();
         $formErrors5 = $this->deleteEvent();
         $formErrors3 = $this->insertProduct();
@@ -914,6 +966,7 @@ class Controller {
             'errors6' => $formErrors6,
             'orders' => $orderlist,
             'items' => $productlist,
+            'products' => $productlist,
             'cats'=> $cats
         ]);
 
