@@ -1,0 +1,59 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <form class="col s12" method="post" action="booking" enctype="multipart/form-data">
+            {% for error in errors %}
+                <tr>
+                    <td>
+
+                        <br>
+                        {{ error }}
+                        <br>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            <input type="hidden" name="moduleAction" value="moduleAction">
+
+            <label for="name">Name*</label>
+            <input id="name" type="text"  placeholder="name" class="validate" name="name"  value="{{ name }}">
+
+            <label for="email">Email*</label>
+            <input id="email" type="text"  placeholder="someone@something.com" class="validate" name="email"  value="{{ email }}">
+
+            <label for="address">Address</label>
+            <input id="address" type="text"  placeholder="address" class="validate" name="address"  value="{{ address }}">
+
+            <label for="phone">Phone number</label>
+            <input id="phone" type="text"  placeholder="0455432211" class="validate" name="phone"  value="{{ phone }}">
+
+            <label for="date"></label>
+
+            <input type="date" class = "validate" id="date" value = "{{ date }}" name="date">
+
+            <label for ="fromTime">From: </label>
+
+            <input type ="time" class ="validate" id ="fromTime" value =" {{ fromTime }}" name = "fromTime">
+
+            <label for ="untilTime">Until: </label>
+
+            <input type ="time" class ="validate" id ="untilTime" value =" {{ untilTime }}" name = "untilTime">
+
+            <label for = "description">Description: </label>
+
+            <input type="text" class = "validate" id="description"  name="desciption">
+
+            <label for ="fromTime">From: </label>
+
+            <button>Book ijskar</button>
+        </form>
+    </div>
+</div>
+</body>

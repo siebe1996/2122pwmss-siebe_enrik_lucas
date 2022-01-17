@@ -24,16 +24,21 @@ class Helper
         return $datetime;
     }
 
+    public static function checkIfTimesAreLogical($fromTime,$untilTime) : string {
+        $arr1 = explode(':',$fromTime);
+        $arr2 = explode(':',$untilTime);
+        if(count($arr1) == 2 && count($arr2) == 2) {
+            if($arr2[0]<$arr1[0]) return 'Times are not in a logical order';
+        }
+        else return 'Please give in valid starting and/or ending times';
+    }
+
     public static function validateDate($time) : string
     {
         $error = '';
         //var_dump($time);
         $arr = explode('-', $time);
-        echo '---------';
-        //var_dump($arr);
-        echo '---------';
-        //var_dump(count($arr));
-        echo '---------';
+
         if (count($arr) == 3) {
             $month = $arr[1];
             $day = $arr[2];
@@ -61,6 +66,13 @@ class Helper
             $newArray[]=$element[$key];
         }
         return $newArray;
+    }
+
+    public static function addHoursAndMinutes($dateTime,$time) {
+        $arr = explode(':',$time);
+        $d = new DateTime($dateTime);
+        $d->setTime($arr['0'],$arr['1']);
+
     }
 
     public static function replaceSpacesWithUnderscores($string) : string {

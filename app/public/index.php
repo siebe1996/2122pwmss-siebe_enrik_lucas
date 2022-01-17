@@ -44,17 +44,18 @@ $router->post('/order/1', 'Controller@order1');
 $router->get('/order/2', 'Controller@order2');
 $router->post('/order/2', 'Controller@order2');
 
-$router->get('/order/3/ijs', 'Controller@order3Icecream');
-$router->post('/order/3/ijs', 'Controller@order3Icecream');
-
 $router->get('/order/finish', 'Controller@finishOrder');
 $router->post('/order/finish', 'Controller@finishOrder');
 
 $router->get('/order/submit', 'Controller@submitOrder');
 $router->post('/order/submit', 'Controller@submitOrder');
 
+$router->get('/booking', 'Controller@booking');
+$router->post('/booking', 'Controller@booking');
 
 $router->get('/order/3/(\d+)', 'Controller@orderProduct');
 $router->post('/order/3/(\d+)', 'Controller@orderProduct');
+
+
 
 $router->run();
