@@ -22,7 +22,6 @@ class Controller {
     private $twig;
     private $mailer; //mailer is yet to be installed via composer
 
-
     public function __construct()
     {
         $this->conn = \Services\DatabaseConnector::getConnection();
@@ -34,10 +33,13 @@ class Controller {
         ]);
         session_start();
 
-        if(!isset($_COOKIE['PopupTimer'])) {
+        $test =  isset($_COOKIE['PopupTimer']) ? (string)$_COOKIE['PopupTimer'] : '';
+
+        if(empty(trim($test))) {
             $cookie_name = "PopupTimer";
             $cookie_value = date('d');
             setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+            $this->x = 11;
         }
 
     }
@@ -507,20 +509,24 @@ class Controller {
         $popupName = $this->conn->fetchOne('select message FROM popups where id = 1');
         $productlist = $this->conn->fetchAllAssociative('SELECT * FROM products WHERE featured = 1');
         $productlist2 = $this->conn->fetchAllAssociative('SELECT * FROM products');
-
-
         $date2 = new DateTime('today');
         $V = $date2->getTimestamp();
 
-        if ($V > $_COOKIE['PopupTimer']){
-            $date1 = new DateTime('today');
-            $date1->modify('+'.$popup.'day');
-            setcookie('PopupTimer', $date1->getTimestamp(), time() + (86400 * 30), "/");
-            $cook = 1;
-        }else{
-            $cook = 0;
-        }
+        $test =  isset($_COOKIE['PopupTimer']) ? (string)$_COOKIE['PopupTimer'] : '';
 
+
+        $cook = 0;
+        if(!empty(trim($test))) {
+            if ($V > $_COOKIE['PopupTimer']){
+                $date1 = new DateTime('today');
+                $date1->modify('+'.$popup.'day');
+                setcookie('PopupTimer', $date1->getTimestamp(), time() + (86400 * 30), "/");
+                $cook = 1;
+            }else{
+                $cook = 0;
+            }
+
+        }
         $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
         if ($user){
             $url = 'logout';
@@ -532,7 +538,6 @@ class Controller {
             $text = 'login';
 
         }
-
         $tpl = $this->twig->load('index.twig');
         echo $tpl->render([
             'products' => $productlist,
