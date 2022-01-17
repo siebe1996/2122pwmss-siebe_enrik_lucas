@@ -2,7 +2,6 @@
 
 namespace Services;
 
-use Cassandra\Date;
 use DateTime;
 
 class Helper
@@ -18,18 +17,29 @@ class Helper
         return $numberCorrect;
     }
 
+    public static function convertToDateTime($timeString) : DateTime {
+        $epoch = strtotime($timeString);
+        $datetime = new DateTime();
+        $datetime->setTimestamp($epoch);
+        return $datetime;
+    }
+
     public static function validateDate($time) : string
     {
         $error = '';
-        var_dump($time);
+        //var_dump($time);
         $arr = explode('-', $time);
         echo '---------';
-        var_dump($arr);
+        //var_dump($arr);
         echo '---------';
-        var_dump(count($arr));
+        //var_dump(count($arr));
         echo '---------';
         if (count($arr) == 3) {
-            if (!checkdate($arr[1], $arr[0], $arr[2])) {
+            $month = $arr[1];
+            $day = $arr[2];
+            $year = $arr[0];
+            echo 'Month : '.$month . ' Day : ' . $day .' year : '.$year;
+            if (!checkdate($month , $day, $year)) {
                 return 'Please give in a valid date.';
             }
         } else {

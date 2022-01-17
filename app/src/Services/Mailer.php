@@ -22,7 +22,7 @@ class Mailer {
         $this->mailer = new \Swift_Mailer($transport);
     }
     public function send($body,$variables) {
-        $date = date('d/m/Y');
+        $date = $variables['contact']['date'];
         $message = (new Swift_Message('Nieuwe bestelling ' . $date))
             ->setFrom(['noreply-orders@gmail.com' => 'New order notifier'])
             ->setTo(['sven.ijswinkel@gmail.com'])
