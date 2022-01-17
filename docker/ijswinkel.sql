@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `WMSS_Project`.`arrangements` (
                                                              `id` INT NOT NULL AUTO_INCREMENT,
                                                              `name` VARCHAR(150) NOT NULL,
     `description` VARCHAR(150) NULL,
-    `location` DATETIME NOT NULL,
+    `location` VARCHAR(150) NOT NULL,
     `start_time` DATETIME NOT NULL,
     `end_time` DATETIME NOT NULL,
     `is_work` TINYINT(1) NULL DEFAULT 0,
@@ -196,11 +196,11 @@ CREATE TABLE IF NOT EXISTS `WMSS_Project`.`arrangements` (
 
 
 -- -----------------------------------------------------
--- Table `WMSS_Project`.`pop-ups`
+-- Table `WMSS_Project`.`popups`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `WMSS_Project`.`pop-ups` ;
+DROP TABLE IF EXISTS `WMSS_Project`.`popups` ;
 
-CREATE TABLE IF NOT EXISTS `WMSS_Project`.`pop-ups` (
+CREATE TABLE IF NOT EXISTS `WMSS_Project`.`popups` (
                                                         `id` INT NOT NULL AUTO_INCREMENT,
                                                         `message` TEXT NOT NULL,
                                                         `start` DATETIME NOT NULL,
