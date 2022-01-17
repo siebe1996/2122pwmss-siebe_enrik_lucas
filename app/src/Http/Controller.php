@@ -113,6 +113,71 @@ class Controller {
         }
     }
 
+    public function booking() {
+        if(isset($_POST['moduleAction']) && $_POST['moduleAction'] == 'moduleAction') {
+            $form = $this->procesBookingDetails();
+            if($form['errors']) {
+                $tpl = $this->twig->load('orderCart.twig');
+                echo $tpl->render(
+                    $form
+                );
+            }
+            else {
+                $booking = [
+                    'name' => $form['name'],
+                    'description' => $form['description'],
+                    'address' => $form['address'],
+                    'fromTime' => ''
+
+                ];
+                header('location: /thankyou');
+            }
+        }
+        else {
+            $tpl = $this->twig->load('orderCart.twig');
+            echo $tpl->render();
+        }
+    }
+
+    public function insertBookingIntoDB($booking) {
+        $stmt = $this->conn->prepare('INSERT into arrangements VALUES(?,?,?,?,?,?,?,?,?)');
+        $rowCount = $stmt->executeStatement([null,$booking['name'],$booking['description'],$booking['address'], $booking['fromTime'],$booking['untilTime'],1,1,'www.google.com']);
+
+    }
+
+    public function procesBookingDetails() {
+        $email = isset($_POST['email']) ? (string)$_POST['email'] : '';
+        $name = isset($_POST['name']) ? (string)$_POST['name'] : '';
+        $address = isset($_POST['address']) ? (string)$_POST['address'] : '';
+        $phone = isset($_POST['phone']) ? (string)$_POST['phone'] : '';
+        $date = isset($_POST['date']) ? (string)$_POST['date'] : '';
+        $fromTime = isset($_POST['fromTime']) ? (string)$_POST['fromTime'] : '';
+        var_dump($fromTime);
+        $untilTime = isset($_POST['untilTime']) ? (string)$_POST['untilTime'] : '';
+        var_dump($untilTime);
+        $formErrors = [];
+        if(Helper::validateDate($date)) $formErrors[]=Helper::validateDate($date);
+        if(Helper::checkIfTimesAreLogical($fromTime,$untilTime)) $formErrors[] = Helper::checkIfTimesAreLogical($fromTime,$untilTime);
+        if(!\Services\Helper::validatePhonenumber($phone) && ''!=trim($phone))  $formErrors[] = '*This phone number is invalid';
+        if (trim($email) == '') {
+            $formErrors[] = '*Please fill in an email';
+        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $formErrors[] = '*Email address is not valid.';
+        }
+        if (trim($name) == '') $formErrors[] = '*Please fill in a name';
+
+        return [
+            'errors' => $formErrors,
+            'name' => $name,
+            'email' => $email,
+            'address' => $address,
+            'phone' => $phone,
+            'date' => $date,
+            'fromTime' => $fromTime,
+            'untilTime' => $untilTime
+        ];
+    }
+
     public function getProductIdWithName($name) : string {
         $stmt = $this->conn->prepare('SELECT id FROM products WHERE name = :name');
         $stmt->bindParam(':name',$name);
