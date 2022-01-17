@@ -42,17 +42,11 @@ class Controller {
 
     }
 
-
-
-
     public function order1() {
-        //$formData = unserialize($_COOKIE['formData']);
-        //var_dump($formData);
         if(isset($_POST['moduleAction1']) && $_POST['moduleAction1'] == 'moduleAction1') {
             $formInfo['customerInfo'] = $this->procesOrderDetails1();
             if($formInfo['customerInfo']['errors']) {
-                var_dump('error');
-                var_dump($formInfo['customerInfo']['errors']);
+
                 $tpl = $this->twig->load('orderForm1.twig');
                 echo $tpl->render($formInfo['customerInfo']);
             }
@@ -68,6 +62,7 @@ class Controller {
             echo $tpl->render();
         }
     }
+
     public function getCategories() {
         return $this->conn->prepare('SELECT * FROM categories')->executeQuery()->fetchAllAssociative();
     }
@@ -76,8 +71,6 @@ class Controller {
         $categories = $this->getCategories();
         $this->getArrayOfCategoryIds();
         $orderedProducts = isset($_COOKIE['orderedProducts']) ? (string)$_COOKIE['orderedProducts'] : '';
-        echo('Ordered products array: ' . $orderedProducts . PHP_EOL);
-
         $formData = unserialize($_COOKIE['formData']);
         var_dump($formData);
         if(!$formData['customerInfo']) {
@@ -340,14 +333,8 @@ class Controller {
         $date = isset($_POST['date']) ? (string)$_POST['date'] : '';
         $formErrors = [];
 
-        echo 'The date problem: ';
-        var_dump(Helper::validateDate($date));
-        echo' End of the date problem';
         if(Helper::validateDate($date)) {
             $formErrors[]=Helper::validateDate($date);
-            echo 'The date problem: ';
-            var_dump(Helper::validateDate($date));
-            echo' End of the date problem';
         }
         if(!\Services\Helper::validatePhonenumber($phone))  $formErrors[] = '*This phone number is invalid';
         if (trim($email) == '') {
