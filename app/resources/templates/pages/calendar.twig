@@ -23,6 +23,36 @@
 
     <title>Calendar #10</title>
 </head>
+
+
+<!-- Start Main Top -->
+<header class="main-header">
+    <!-- Start Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="index.php"><img src="images/logo.png" class="logo" alt=""></a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="nav-item {% if title == "home" %} active {% endif %}"><a class="nav-link" href="index">Home</a></li>
+                    <li class="nav-item {% if title == "about" %} active {% endif %}"><a class="nav-link" href="about">About Us</a></li>
+                    <li class="nav-item {% if title == "shop" %} active {% endif %}"><a class="nav-link" href="shop" >Shop</a></li>
+                    <li class="nav-item {% if title == "gallery" %} active {% endif %}"><a class="nav-link" href="gallery">Gallery</a></li>
+                    <li class="nav-item {% if title == "contact" %} active {% endif %}"><a class="nav-link" href="contact-us">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
 <body style="height: 100%;">
 
 

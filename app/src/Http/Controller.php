@@ -2,10 +2,11 @@
 
 namespace Http;
 use SplFileInfo;
+use DateTime;
 
 use Services\Helper;
 use Services\Mailer;
-
+use const http\Client\Curl\VERSIONS;
 
 
 require_once ('../vendor/autoload.php');
@@ -24,7 +25,6 @@ class Controller {
 
     public function __construct()
     {
-        session_start();
         $this->conn = \Services\DatabaseConnector::getConnection();
         //$this->mailer = new \Services\Mailer();
 
@@ -32,6 +32,14 @@ class Controller {
         $this->twig = new \Twig\Environment($loader, [
             'auto_reload' => true // set to false on production
         ]);
+        session_start();
+
+        if(!isset($_COOKIE['PopupTimer'])) {
+            $cookie_name = "PopupTimer";
+            $cookie_value = date('d');
+            setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+        }
+
     }
 
     public function calendar(){
@@ -164,9 +172,24 @@ class Controller {
 
     }
 
-
-
     public function index () {
+        $popup = $this->conn->fetchOne('select frequency FROM popups where id = 1');
+        $popupName = $this->conn->fetchOne('select message FROM popups where id = 1');
+        $productlist = $this->conn->fetchAllAssociative('SELECT * FROM products WHERE featured = 1');
+        $productlist2 = $this->conn->fetchAllAssociative('SELECT * FROM products');
+
+
+        $date2 = new DateTime('today');
+        $V = $date2->getTimestamp();
+
+        if ($V > $_COOKIE['PopupTimer']){
+            $date1 = new DateTime('today');
+            $date1->modify('+'.$popup.'day');
+            setcookie('PopupTimer', $date1->getTimestamp(), time() + (86400 * 30), "/");
+            $cook = 1;
+        }else{
+            $cook = 0;
+        }
 
         $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
         if ($user){
@@ -182,15 +205,22 @@ class Controller {
 
         $tpl = $this->twig->load('index.twig');
         echo $tpl->render([
-           'url'=> $url,
+            'products' => $productlist,
+            'products2' => $productlist2,
+            'popup' => $popupName,
+            'cook' => $cook,
+            'url'=> $url,
             'text'=> $text
         ]);
     }
 
 
     public function shop () {
+        $productlist = $this->conn->fetchAllAssociative('SELECT * FROM products');
+
         $tpl = $this->twig->load('shop.twig');
         echo $tpl->render([
+            'products'=>$productlist
         ]);
     }
 
@@ -250,10 +280,7 @@ class Controller {
         }
         else {
             $tpl = $this->twig->load('orderForm2.twig');
-            echo $tpl->render([
-                'orderedProducts' => $orderedProducts,
-                'categories' => $categories
-            ]);
+
         }
     }
 
