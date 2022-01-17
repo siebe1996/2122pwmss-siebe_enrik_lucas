@@ -10,7 +10,7 @@
     <div class="form">
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
            <div class="errors">
-               {% for error in errors %}
+               {% for error in errors3 %}
                    <tr>
                        <td>
 
@@ -78,6 +78,7 @@
 
 
     <div class="form">
+
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
             <div class="errors">
                 {% for error in errors2 %}
@@ -92,7 +93,29 @@
 
                 {% endfor %}
             </div>
+            <div class="test">
+                <h2 for="title">Enter a new categorie</h2>
+                <input type="hidden" name="moduleAction" value="insertCategorie">
+                <label for="categorieName">name</label>
+                <input id="categorieName"  placeholder="categorie name" class="validate" name="categorieName"  value="{{ categorieName }}">
+                <br><br>
+                <button>insert categorie</button>
+            </div>
+        </form>
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+                {% for error in errors2 %}
+                    <tr>
+                        <td>
 
+                            <br>
+                            {{ error }}
+                            <br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </div>
             <div class="test">
                 <h2 for="title">Delete a product</h2>
                 <input type="hidden" name="moduleAction" value="DeleteProduct">
@@ -106,7 +129,21 @@
                 <br><br>
                 <button>Delete product</button>
             </div>
+        </form>
+        <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
+            <div class="errors">
+                {% for error in errors2 %}
+                    <tr>
+                        <td>
 
+                            <br>
+                            {{ error }}
+                            <br>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </div>
             <div class="test">
                 <h2 for="title">Delete an order</h2>
                 <input type="hidden" name="moduleAction" value="DeleteOrder">
@@ -117,16 +154,11 @@
                 <button>Delete order</button>
             </div>
 
-            <div class="test">
-                <h2 for="title">Enter a new categorie</h2>
-                <input type="hidden" name="moduleAction" value="insertCategorie">
-                <label for="categorieName">name</label>
-                <input id="categorieName"  placeholder="categorie name" class="validate" name="categorieName"  value="{{ categorieName }}">
-                <br><br>
-                <button>insert categorie</button>
-            </div>
         </form>
     </div>
+
+
+
 
 
 
@@ -136,7 +168,7 @@
 
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
             <div class="errors">
-                {% for error in errors3 %}
+                {% for error in errors6 %}
                     <tr>
                         <td>
 
@@ -152,9 +184,9 @@
             <div class="test">
                 <h2 for="title">Edit a product</h2>
                 <label for="product">select a product</label>
-                <input type="hidden" name="moduleAction" value="SelectedProduct">
+                <input type="hidden" name="moduleAction" value="selectProduct">
                 <br><br>
-                <select name="SelectedProduct" id="categorie">
+                <select name="selectProduct" id="categorie">
                     {% for item in items %}
                         <option value="{{ item.id }}">{{ item.name }}</option>
                     {% endfor %}
@@ -166,7 +198,7 @@
 
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
             <div class="errors">
-                {% for error in errors3 %}
+                {% for error in errors6 %}
                     <tr>
                         <td>
 
@@ -185,7 +217,7 @@
                 <input type="hidden" name="moduleAction" value="EditProduct">
                 {% for item in selected %}
                     <h2 for="title">Edit selected product</h2>
-                    <input id="idin"  placeholder="product name" class="validate" name="idin" value="{{ idin }}">
+                    <input id="idin"  placeholder="product name" class="validate" name="idin" value="{{ item.id }}">
                 <label for="name">name</label>
                 <input id="name"  placeholder="product name" class="validate" name="nameUpdate" value="{{ item.name }}">
                 <label for="description">description</label>
@@ -236,17 +268,7 @@
 
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
             <div class="errors">
-                {% for error in errors3 %}
-                    <tr>
-                        <td>
 
-                            <br>
-                            {{ error }}
-                            <br>
-                        </td>
-                    </tr>
-
-                {% endfor %}
             </div>
 
             <div class="test">
@@ -277,24 +299,18 @@
             </div>
         </form>
 
+
+
+
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
             <div class="errors">
-                {% for error in errors3 %}
-                    <tr>
-                        <td>
 
-                            <br>
-                            {{ error }}
-                            <br>
-                        </td>
-                    </tr>
 
-                {% endfor %}
             </div>
 
 
             <div class="test">
-                <input type="hidden" name="moduleAction" value="EditOrder">
+                <input type="hidden" name="moduleAction" value="editOrder">
 
                 <h2 for="title">Edit selected order</h2>
                 {% for out in output1 %}
@@ -371,7 +387,7 @@
     <div class="form">
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
             <div class="errors">
-                {% for error in errors %}
+                {% for error in errors4 %}
                     <tr>
                         <td>
 
@@ -409,7 +425,7 @@
     <div class="form">
         <form class="col s12" method="post" action="admin" enctype="multipart/form-data">
             <div class="errors">
-                {% for error in errors3 %}
+                {% for error in errors5 %}
                     <tr>
                         <td>
 

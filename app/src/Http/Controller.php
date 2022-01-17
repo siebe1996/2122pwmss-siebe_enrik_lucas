@@ -495,10 +495,7 @@ class Controller {
         $toRemove = isset($_POST['productCategorie']) ? $_POST['productCategorie'] : '';
 
 
-        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'deleteProduct')) {
-            if(empty(trim($_POST["productCategorie"]))) {
-                $formErrors2[] = "*Please select a product to remove.";
-            }
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'DeleteProduct')) {
             if (sizeof($formErrors2) == 0){
                 $stmt = $this->conn->prepare('DELETE FROM products WHERE id = ?');
                 $rowCount = $stmt->executeStatement([$toRemove]);
@@ -674,6 +671,7 @@ class Controller {
 
         if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'EditProduct')) {
 
+
             if(empty(trim($_POST["nameUpdate"]))) {
                 $formErrors3[] = "*Please enter a product name.";
             }
@@ -692,8 +690,10 @@ class Controller {
 
 
             if (sizeof($formErrors3) == 0){
-                $stmt = $this->conn->prepare('UPDATE products SET  name = ?, stock = ? , description = ? , price  = ? , kind = ? , featured = ? , categories_id = ?, sortweight = ? WHERE id = ?');
-                $rowCount = $stmt->executeStatement([$nameUpdate, $stockUpdate , $descriptionUpdate, $priceUpdate, $typeUpdate , $featuredUpdate, $categorieUpdate, $weightUpdate , $idin]);
+
+                echo $typeUpdate;
+                $stmt = $this->conn->prepare('UPDATE products SET  name = ?, stock = ? , description = ? , price  = ?  , featured = ? , categories_id = ?, sortweight = ? WHERE id = ?');
+                $rowCount = $stmt->executeStatement([$nameUpdate, $stockUpdate , $descriptionUpdate, $priceUpdate,  $featuredUpdate, $categorieUpdate, $weightUpdate , $idin]);
 
             }
 
@@ -708,8 +708,7 @@ class Controller {
         $orderid = isset($_POST['orderid']) ? $_POST['orderid'] : '';
 
         $selectedOrder = [];
-        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'selectOrder')) {
-
+        if (isset($_POST['moduleAction']) && ($_POST['moduleAction'] == 'SelectedOrder')) {
             $selectedOrder = $this->conn->fetchAllAssociative('select * FROM order_has_product INNER JOIN products ON order_has_product.product_id = products.id WHERE order_id = ?', array($orderid));
 
         }
@@ -783,7 +782,6 @@ class Controller {
 
     public function admin() {
 
-
         $user = isset($_SESSION['user']) ? $_SESSION['user'] : false;
         if (!$user){
             header('location: index');
@@ -804,7 +802,10 @@ class Controller {
         $selectedOrder = $this->selectOrder();
         $formErrors6 = $this->editProduct();
         $this->deleteProduct();
+
+
         $this->editOrder();
+
 
         $output1 = array_slice($selectedOrder, 0, 1);
         $output2 = array_slice($selectedOrder, 1,1);
@@ -818,6 +819,7 @@ class Controller {
         $productlist = $this->conn->fetchAllAssociative('SELECT * FROM products');
         $orderlist = $this->conn->fetchAllAssociative('SELECT * FROM orders');
         $cats = $this->conn->fetchAllAssociative('SELECT * FROM categories');
+
 
         $tpl = $this->twig->load('admin.twig');
         echo $tpl->render([
